@@ -17,6 +17,7 @@
 """
 from flaskbb.cli.main import flaskbb  # noqa
 from flaskbb.cli.plugins import plugins  # noqa
+from flaskbb.cli.data import data  # noqa
 from flaskbb.cli.themes import themes  # noqa
 from flaskbb.cli.translations import translations  # noqa
 from flaskbb.cli.users import users  # noqa
