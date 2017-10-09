@@ -15,6 +15,9 @@ import shutil
 import click
 from flask import current_app
 
+import markovify
+from flaskbb.forum.models import Topic, Post, Forum
+from flaskbb.user.models import User
 from flaskbb.cli.main import flaskbb
 from flaskbb.cli.utils import check_cookiecutter, validate_plugin
 from flaskbb.extensions import plugin_manager
@@ -35,13 +38,30 @@ def data():
 @data.command("post")
 def post():
     """Installs a new plugin."""
+    # forum = Forum.query.all()[0]
+    print(markovify)
+    # user = User.query.all()[0]
+    # topic = Topic.query.all()[0]
 
-    # def save(self, user, topic):
-        # post = Post(content=self.content.data)
-        # return post.save(user=user, topic=topic)
-    print("")
+    # # topic = Topic(title="hello")
+    # post = Post(content="okokokok")
+    # post.save(user=user, topic=topic)
 
-             
+    with open("test.txt") as f:
+        text = f.read()
+
+    # Build the model.
+    text_model = markovify.Text(text)
+
+    # Print five randomly-generated sentences
+    for i in range(5):
+        print(text_model.make_sentence())
+
+    # Print three randomly-generated sentences of no more than 140 characters
+    for i in range(3):
+        print(text_model.make_short_sentence(140))
+
+                 
 
 @data.command("seed_ilxor")
 def seed_ilxor():
