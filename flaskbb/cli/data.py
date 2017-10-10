@@ -11,6 +11,7 @@
 import sys
 import os
 import shutil
+import random
 
 import click
 from flask import current_app
@@ -56,11 +57,11 @@ def generate_post_corpus():
 
 @data.command("generate_thread_corpus")
 def generate_thread_corpus():
-    posts = RawData.query.all()
+    unique_threads = RawData.query.distinct(RawData.thread_name).all()
     f = open('posts.txt', 'w')
-    for post in posts:
-        print(post.message)
-        f.write(post.message.encode('utf-8').strip()+"\n")
+    for thread in unique_threads:
+        print(thread.thread_name)
+        # f.write(post.message.encode('utf-8').strip()+"\n")
 
 
 @data.command("generate_user")
@@ -90,29 +91,66 @@ def generate_user():
 
 # @data.command("create_base_ilxor_model")
 
+def generate_thread(user, forum):
+    with open("posts.txt", "r") as f:
+        text = f.read()
+
+    # Build the model.
+    text_model = markovify.Text(text)
+
+    # Print three randomly-generated sentences of no more than 140 characters
+    post_content = text_model.make_sentence()
+    post = Post(content=post_content)
+    thread_name = text_model.make_short_sentence(100)
+    thread = Topic(title=thread_name)
+    thread.save(user=user, forum=forum, post=post)
+
+
+def generate_post(forum, user, topic):
+    with open("posts.txt", "r") as f:
+        text = f.read()
+
+    # Build the model.
+    text_model = markovify.Text(text)
+
+    # Print three randomly-generated sentences of no more than 140 characters
+    post_content = text_model.make_sentence()
+    post = Post(content=post_content)
+    post.save(user=user, topic=topic)
+
 @data.command("generate_post")
 def post():
-    # forum = Forum.query.all()[0]
-    # user = User.query.all()[0]
+    forum = Forum.query.all()[0]
+    users = User.query.all()
+    user = random.choice(users)
+    rand_val = random.random()
+
+    if rand_val > 0.95:
+        generate_thread(user, forum)
+    else:
+        topics = Topic.query.all()
+        topic = random.choice(topics)
+        generate_post(forum, user, topic)
+
     # topic = Topic.query.all()[0]
 
     # # topic = Topic(title="hello")
     # post = Post(content="okokokok")
     # post.save(user=user, topic=topic)
 
-    with open("posts.txt") as f:
-        text = f.read()
+    # with open("posts.txt") as f:
+        # text = f.read()
 
-    # Build the model.
-    text_model = markovify.Text(text)
+    # # Build the model.
+    # text_model = markovify.Text(text)
 
-    # Print five randomly-generated sentences
-    for i in range(5):
-        print(text_model.make_sentence())
+    # # Print five randomly-generated sentences
+    # for i in range(5):
+        # print(text_model.make_sentence())
 
-    # Print three randomly-generated sentences of no more than 140 characters
-    for i in range(3):
-        print(text_model.make_short_sentence(140))
+    # # Print three randomly-generated sentences of no more than 140 characters
+    # for i in range(3):
+        # print(text_model.make_short_sentence(140))
 
                  
 
