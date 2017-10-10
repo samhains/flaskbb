@@ -35,7 +35,7 @@ def data():
     """Plugins command sub group."""
     pass
 
-@data.command("user_markov_model")
+@data.command("generate_user_corpus")
 def user_markov_model():
     unique_users = RawData.query.distinct(RawData.username).group_by(RawData.username).all()
     f = open('users.txt', 'w')
@@ -44,6 +44,24 @@ def user_markov_model():
         if(len(user)> 0):
             print(user[0])
             f.write(user[0].encode('utf-8').strip()+"\n")
+
+
+@data.command("generate_post_corpus")
+def generate_post_corpus():
+    posts = RawData.query.all()
+    f = open('posts.txt', 'w')
+    for post in posts:
+        print(post.message)
+        f.write(post.message.encode('utf-8').strip()+"\n")
+
+@data.command("generate_thread_corpus")
+def generate_thread_corpus():
+    posts = RawData.query.all()
+    f = open('posts.txt', 'w')
+    for post in posts:
+        print(post.message)
+        f.write(post.message.encode('utf-8').strip()+"\n")
+
 
 @data.command("generate_user")
 def generate_user():
@@ -70,10 +88,10 @@ def generate_user():
     # for i in range(3):
         # print(text_model.make_short_sentence(1, test_output=False))
 
+# @data.command("create_base_ilxor_model")
 
-@data.command("post")
+@data.command("generate_post")
 def post():
-    """Installs a new plugin."""
     # forum = Forum.query.all()[0]
     # user = User.query.all()[0]
     # topic = Topic.query.all()[0]
@@ -82,7 +100,7 @@ def post():
     # post = Post(content="okokokok")
     # post.save(user=user, topic=topic)
 
-    with open("test.txt") as f:
+    with open("posts.txt") as f:
         text = f.read()
 
     # Build the model.
