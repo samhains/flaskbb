@@ -610,7 +610,7 @@ class Topic(HideableCRUDMixin, db.Model):
 
         return True
 
-    def save(self, user=None, forum=None, post=None):
+    def save(self, user=None, forum=None, post=None, thread_id=None):
         """Saves a topic and returns the topic object. If no parameters are
         given, it will only update the topic.
 
@@ -628,6 +628,7 @@ class Topic(HideableCRUDMixin, db.Model):
         # Set the forum and user id
         self.forum = forum
         self.user = user
+        self.thread_id = thread_id
         self.username = user.username
 
         # Set the last_updated time. Needed for the readstracker

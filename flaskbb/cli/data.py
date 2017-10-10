@@ -131,14 +131,14 @@ def generate_thread_name():
     
 
 def generate_thread(user, forum):
-    text_model = load_model('{}/base_ilxor.json'.format(MARKOV_MODEL_DIR))
     # Print three randomly-generated sentences of no more than 140 characters
+    thread_name, thread_id = generate_thread_name()
+    text_model = get_combined_model_for_thread(thread_id)
+    # print(text_model)
     post_content = text_model.make_sentence()
     post = Post(content=post_content)
-    thread_name, thread_id = generate_thread_name()
-    print('got thread', thread_name, thread_id)
-    # thread = Topic(title=thread_name, thread_id=thread_id)
-    # thread.save(user=user, forum=forum, post=post)
+    thread = Topic(title=thread_name)
+    thread.save(user=user, forum=forum, post=post, thread_id=thread_id)
 
 def get_data_from_threads(threads_arr):
     data_str = ""
@@ -153,30 +153,27 @@ def load_thread_model(thread_id):
     else: 
         data_objects = RawData.query.filter(RawData.thread_id==thread_id)
         data_str = get_data_from_threads(data_objects)
-        create_model_from_text(data_str, thread_fname(thread_id))
         print("new one created!", thread_fname(thread_id))
+        return create_model_from_text(data_str, thread_fname(thread_id))
 
 
 def thread_fname(thread_id):
     return "{}/thread_{}.json".format(MARKOV_MODEL_DIR, thread_id)
 
-def merge_thread_with_base(thread_id):
+def get_combined_model_for_thread(thread_id):
     model_a = load_model('{}/base_ilxor.json'.format(MARKOV_MODEL_DIR))
     model_b = load_thread_model(thread_id)
+    print('model_a', model_a)
+    print('model_b', model_b)
 
-    model_combo = markovify.combine([ model_a, model_b ], [ 1, 2 ])
+    return markovify.combine([ model_a, model_b ], [ 1, 2 ])
 
-    for i in range(0, 10):
-        print(model_combo.make_sentence(tries=10))
-
-
-@data.command("generate_post_with_thread_weighting")
-def generate_post_with_thread_weighting():
-    merge_thread_with_base(10258)
 
 def generate_post(forum, user, topic):
-
-    text_model = load_model()
+    if (topic.thread_id):
+        text_model = get_combined_model_for_thread(topic.thread_id)
+    else:
+        text_model = load_model('{}/base_ilxor.json'.format(MARKOV_MODEL_DIR))
     # Print three randomly-generated sentences of no more than 140 characters
     post_content = text_model.make_sentence()
     post = Post(content=post_content)
@@ -190,13 +187,12 @@ def post():
     rand_val = random.random()
 
 
-    generate_thread(user, forum)
-    # if rand_val > 0.95:
-        # generate_thread(user, forum)
-    # else:
-        # topics = Topic.query.all()
-        # topic = random.choice(topics)
-        # generate_post(forum, user, topic)
+    if rand_val > 0.95:
+        generate_thread(user, forum)
+    else:
+        topics = Topic.query.all()
+        topic = random.choice(topics)
+        generate_post(forum, user, topic)
 
 @data.command("seed_ilm")
 def seed_ilm():
