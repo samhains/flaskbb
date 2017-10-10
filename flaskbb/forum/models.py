@@ -389,6 +389,7 @@ class Topic(HideableCRUDMixin, db.Model):
     title = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
     username = db.Column(db.String(200), nullable=False)
+    thread_id = db.Column(db.Integer)
     date_created = db.Column(UTCDateTime(timezone=True), default=time_utcnow,
                              nullable=False)
     last_updated = db.Column(UTCDateTime(timezone=True), default=time_utcnow,

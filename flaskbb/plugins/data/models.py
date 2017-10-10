@@ -20,6 +20,7 @@ class RawData(db.Model, CRUDMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     thread_id = db.Column(db.Integer, nullable=False)
+    forum_id = db.Column(db.Integer, nullable=False)
     thread_name = db.Column(db.String, nullable=False)
     post_num = db.Column(db.Integer, nullable=False)
     username = db.Column(db.String, nullable=False)
