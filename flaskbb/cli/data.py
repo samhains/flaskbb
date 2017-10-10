@@ -12,6 +12,7 @@ import sys
 import os
 import shutil
 import random
+import json
 
 import click
 from flask import current_app
@@ -58,7 +59,7 @@ def generate_post_corpus():
 @data.command("generate_thread_corpus")
 def generate_thread_corpus():
     unique_threads = RawData.query.distinct(RawData.thread_name).all()
-    f = open('posts.txt', 'w')
+    # f = open('posts.txt', 'w')
     for thread in unique_threads:
         print(thread.thread_name)
         # f.write(post.message.encode('utf-8').strip()+"\n")
@@ -79,25 +80,38 @@ def generate_user():
         except:
             print('not asciiable')
 
-
-    # print(markovify)
-    # # Print five randomly-generated sentences
-    # for i in range(5):
-        # print(text_model.make_sentence(tries=100))
-
-    # # Print three randomly-generated sentences of no more than 140 characters
-    # for i in range(3):
-        # print(text_model.make_short_sentence(1, test_output=False))
-
-# @data.command("create_base_ilxor_model")
-
-def generate_thread(user, forum):
-    with open("posts.txt", "r") as f:
-        text = f.read()
-
+def create_model_from_text(text, output_fname):
     # Build the model.
     text_model = markovify.Text(text)
+    model_json = text_model.to_json()
+    with open(output_fname, "w") as f:
+        json.dump(model_json, f)
 
+    return text_model
+
+def create_model_from_file(data_fname, output_fname):
+    with open(data_fname, "r") as f:
+        text = f.read()
+    # Build the model.
+    text_model = markovify.Text(text)
+    model_json = text_model.to_json()
+    with open(output_fname, "w") as f:
+        json.dump(model_json, f)
+
+    return text_model
+
+@data.command("create_base_ilxor_model")
+def create_base_ilxor_model():
+    create_model_from_file("posts.txt", "base_ilxor.json")
+
+def load_model(data_fname):
+    with open(data_fname) as data_file:    
+        model_json = json.load(data_file)
+
+    return markovify.Text.from_json(model_json)
+
+def generate_thread(user, forum):
+    text_model = load_model('base_ilxor.json')
     # Print three randomly-generated sentences of no more than 140 characters
     post_content = text_model.make_sentence()
     post = Post(content=post_content)
@@ -105,14 +119,41 @@ def generate_thread(user, forum):
     thread = Topic(title=thread_name)
     thread.save(user=user, forum=forum, post=post)
 
+def get_data_from_threads(threads_arr):
+    data_str = ""
+    for data in threads_arr:
+        data_str += data.message.encode('utf-8')
+        data_str += "\n"
+    return data_str
+
+def load_thread_model(thread_id):
+    if os.path.exists(thread_fname(thread_id)):
+        return load_model(thread_fname(thread_id))
+    else: 
+        data_objects = RawData.query.filter(RawData.thread_id==thread_id)
+        data_str = get_data_from_threads(data_objects)
+        create_model_from_text(data_str, thread_fname(thread_id))
+        print("new one created!", thread_fname(thread_id))
+
+
+def thread_fname(thread_id):
+    return "thread_{}.json".format(thread_id)
+
+def merge_thread_with_base(thread_id):
+
+    model_a = load_model('base_ilxor.json')
+    model_b = load_thread_model(thread_id)
+
+    print(model_b.make_sentence(tries=10))
+
+
+@data.command("generate_post_with_thread_weighting")
+def generate_post_with_thread_weighting():
+    merge_thread_with_base(10109)
 
 def generate_post(forum, user, topic):
-    with open("posts.txt", "r") as f:
-        text = f.read()
 
-    # Build the model.
-    text_model = markovify.Text(text)
-
+    text_model = load_model()
     # Print three randomly-generated sentences of no more than 140 characters
     post_content = text_model.make_sentence()
     post = Post(content=post_content)
@@ -131,28 +172,6 @@ def post():
         topics = Topic.query.all()
         topic = random.choice(topics)
         generate_post(forum, user, topic)
-
-    # topic = Topic.query.all()[0]
-
-    # # topic = Topic(title="hello")
-    # post = Post(content="okokokok")
-    # post.save(user=user, topic=topic)
-
-    # with open("posts.txt") as f:
-        # text = f.read()
-
-    # # Build the model.
-    # text_model = markovify.Text(text)
-
-    # # Print five randomly-generated sentences
-    # for i in range(5):
-        # print(text_model.make_sentence())
-
-    # # Print three randomly-generated sentences of no more than 140 characters
-    # for i in range(3):
-        # print(text_model.make_short_sentence(140))
-
-                 
 
 @data.command("seed_ilxor")
 def seed_ilxor():
