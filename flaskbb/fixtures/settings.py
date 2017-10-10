@@ -25,13 +25,13 @@ fixture = (
         'description': "How many items per page are displayed.",
         'settings': (
             ('project_title', {
-                'value':        "FlaskBB",
+                'value':        "Plutoboards",
                 'value_type':   "string",
                 'name':         "Project title",
                 'description':  "The title of the project.",
             }),
             ('project_subtitle', {
-                'value':        "A lightweight forum software in Flask",
+                'value':        "Where internet discussion comes to die",
                 'value_type':   "string",
                 'name':         "Project subtitle",
                 'description':  "A short description of the project.",
@@ -89,9 +89,7 @@ fixture = (
                 'name':         "Username Maximum Length",
                 'description':  "The Maximum length of the username. Changing this will only affect new registrations.",
             }),
-            ('auth_username_blacklist', {
-                'value':        "me,administrator,moderator",
-                'value_type':   "string",
+            ('auth_username_blacklist', { 'value':        "me,administrator,moderator", 'value_type':   "string",
                 'name':         "Username Blacklist",
                 'description':  "A comma seperated list with forbidden usernames.",
             }),

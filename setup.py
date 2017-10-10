@@ -48,7 +48,7 @@ class PyTestCommand(TestCommand):
 
 
 setup(
-    name='FlaskBB',
+    name='PlutoBoards',
     version='1.0',
     url='http://github.com/sh4nks/flaskbb/',
     license='BSD',

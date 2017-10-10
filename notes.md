@@ -1,0 +1,7 @@
+- add a google search bot
+- add a google search image bot that trolls around
+- add your word association bot
+- add a memes page index by memes that have been scraped -> use Memes gan
+- add a politics boards
+- add @mentioning for starting of posts
+- add private messaging for human users
