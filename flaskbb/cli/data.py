@@ -140,16 +140,18 @@ def thread_fname(thread_id):
     return "thread_{}.json".format(thread_id)
 
 def merge_thread_with_base(thread_id):
-
     model_a = load_model('base_ilxor.json')
     model_b = load_thread_model(thread_id)
 
-    print(model_b.make_sentence(tries=10))
+    model_combo = markovify.combine([ model_a, model_b ], [ 1, 2 ])
+
+    for i in range(0, 10):
+        print(model_combo.make_sentence(tries=10))
 
 
 @data.command("generate_post_with_thread_weighting")
 def generate_post_with_thread_weighting():
-    merge_thread_with_base(10109)
+    merge_thread_with_base(10258)
 
 def generate_post(forum, user, topic):
 
