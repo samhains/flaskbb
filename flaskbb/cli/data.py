@@ -35,11 +35,46 @@ def data():
     """Plugins command sub group."""
     pass
 
+@data.command("user_markov_model")
+def user_markov_model():
+    unique_users = RawData.query.distinct(RawData.username).group_by(RawData.username).all()
+    f = open('users.txt', 'w')
+    for user in unique_users:
+        user = [p.split(')')[0] for p in user.username.split('(') if ')' in p]
+        if(len(user)> 0):
+            print(user[0])
+            f.write(user[0].encode('utf-8').strip()+"\n")
+
+@data.command("generate_user")
+def generate_user():
+    with open("users.txt") as f:
+        text = f.read().split('\n')
+
+    for username in text:
+        try: 
+            username = username.decode('ascii')
+            user = User.query.filter(User.username==username).all()
+            if len(user) == 0:
+                user = User(username=username, email="{}@gmail.com".format(username), _password="password", primary_group_id=4, activated=1)
+                user.save()
+        except:
+            print('not asciiable')
+
+
+    # print(markovify)
+    # # Print five randomly-generated sentences
+    # for i in range(5):
+        # print(text_model.make_sentence(tries=100))
+
+    # # Print three randomly-generated sentences of no more than 140 characters
+    # for i in range(3):
+        # print(text_model.make_short_sentence(1, test_output=False))
+
+
 @data.command("post")
 def post():
     """Installs a new plugin."""
     # forum = Forum.query.all()[0]
-    print(markovify)
     # user = User.query.all()[0]
     # topic = Topic.query.all()[0]
 
