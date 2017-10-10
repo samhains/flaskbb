@@ -122,7 +122,7 @@ def generate_thread_name():
     unique_threads = RawData.query.distinct(RawData.thread_name).group_by(RawData.thread_name).all()
     unique_thread = random.choice(unique_threads)
 
-    topic = Topic.query.filter(Topic.thread_id==unique_thread.thread_id)
+    topic = Topic.query.filter(Topic.thread_id==unique_thread.thread_id).all()
     if(len(topic) > 0):
         unique_threads = RawData.query.distinct(RawData.thread_name).group_by(RawData.thread_name).all()
         unique_thread = random.choice(unique_threads)
