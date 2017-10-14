@@ -26,47 +26,16 @@ def resume():
 # edate=datetime.datetime.fromtimestamp(int(endStamp)).strftime('%d-%m-%Y')
 # folderName=str(subName+' '+str(sdate)+' '+str(edate))
 
-# if not os.path.exists(folderName):
-    # os.makedirs(folderName)
     
-def getNew(subName,folderName):
-    subreddit_comment = r.get_comments(subName, limit=1000)
-    subreddit_posts = r.get_submissions(subName, limit=1000)
-    for comment in subreddit_comment:
-        print comment
-        url= "https://reddit.com" + comment.permalink
-        data= {'user-agent':'archive by /u/healdb'}
-        #manually grabbing this file is much faster than loading the individual json files of every single comment, as this json provides all of it
-        response = requests.get(url+'.json',headers=data)
-        #Create a folder called dogecoinArchive before running the script
-        filename=folderName+"/"+comment.name
-        obj=open(filename, 'w')
-        obj.write(response.text)
-        obj.close()
-        #print post_json
-    for post in subreddit_posts:
-        print post
-        url1= "https://reddit.com" + post.permalink
-        #pprint(vars(post))
-        data= {'user-agent':'archive by /u/healdb'}
-        #manually grabbing this file is much faster than loading the individual json files of every single comment, as this json provides all of it
-        if submission.id not in already_done:
-            response = requests.get(url1+'.json',headers=data)
-            #Create a folder called dogecoinArchive before running the script
-            filename=folderName+"/"+post.name
-            obj=open(filename, 'w')
-            obj.write(response.text)
-            obj.close()
-            #print post_json
-            already_done.add(submission.id)
-        else:
-            continue
+def scrape(startStamp,step,folderName,subName):
+    time_now = datetime.datetime.now()
+    twelve_earlier = time_now - datetime.timedelta(hours=12)
 
-def scrape(startStamp,endStamp,step,folderName,subName):
-    startStamp= int(time.mktime(datetime.datetime.strptime(startStamp, "%d/%m/%Y").timetuple()))
-    endStamp= int(time.mktime(datetime.datetime.strptime(endStamp, "%d/%m/%Y").timetuple()))
+    endStamp= int(time.mktime(time_now.timetuple()))
+    startStamp= int(time.mktime(twelve_earlier.timetuple()))
+    print(startStamp, endStamp)
     c=1
-    print(startStamp, endStamp, step)
+    print(range(startStamp, endStamp, step))
 
     for currentStamp in range(startStamp,endStamp,step):
         e=' --'
@@ -77,8 +46,7 @@ def scrape(startStamp,endStamp,step,folderName,subName):
         search_results = r.subreddit(subName).search(b+f+d+g, syntax='cloudsearch')
 
         for post in search_results:
-            print(post)
-            #print("---I found a post! It\'s called:" + str(post))
+            print("---I found a post! It\'s called:" + str(post))
             url= "https://reddit.com" + (post.permalink).replace('?ref=search_posts','')
             data= {'user-agent':'archive by /u/healdb'}
             #manually grabbing this file is much faster than loading the individual json files of every single comment, as this json provides all of it
@@ -96,14 +64,17 @@ def scrape(startStamp,endStamp,step,folderName,subName):
         obj.close()
         c+=1
 
+folderName = "politics_now"
+
+if not os.path.exists(folderName):
+    os.makedirs(folderName)
+
 while True:
     try:
         startStamp = "01/01/2016"
-        endStamp = "02/01/2016"
         step = 30
-        folderName = "politics 01-07-2017 02-07-2017"
         subName = "politics"
-        scrape(startStamp, endStamp, step, folderName, subName)
+        scrape(startStamp, step, folderName, subName)
         print("Succesfully got all posts within parameters.")
     except KeyboardInterrupt:
         exit()
