@@ -51,7 +51,7 @@ class ForumIndex(MethodView):
 
         # Check if we use redis or not
         if not current_app.config['REDIS_ENABLED']:
-            online_users = User.query.filter(User.lastseen >= time_diff()).count()
+            online_users = len(User.get_active())
 
             # Because we do not have server side sessions, we cannot check if there
             # are online guests
@@ -59,7 +59,6 @@ class ForumIndex(MethodView):
         else:
 
             online_users = len(User.get_active())
-            print(online_users)
             online_guests = len(get_online_users(guest=True))
 
         return render_template(

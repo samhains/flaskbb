@@ -208,15 +208,12 @@ class User(db.Model, UserMixin, CRUDMixin):
         )
     @staticmethod
     def get_active():
+        # get users who have posted in the last 12 hours
         result = db.engine.execute("SELECT DISTINCT user_id FROM posts WHERE date_created > datetime('now','-12 hour');")
         user_ids = []
         for row in result:
             user_ids.append(row[0])
         users = User.query.filter(User.id.in_(user_ids)).all()
-
-        # time_now = datetime.datetime.now()
-        # twelve_earlier = time_now - datetime.timedelta(hours=12)
-        # posts = Post.query.filter(Post.created_at > twelve_earlier).all()
 
         return users
     # Methods
