@@ -98,7 +98,7 @@ def create_base_ile_model():
 
 @data.command("run")
 def run():
-    for i in range(0, 1):
+    for i in range(0, 100):
         # r1 = random.random()
         forum_id = 3
 
@@ -132,7 +132,6 @@ def seed_forums():
     # forum = Forum(title="Memiverse", description="culture spreading like virus", category_id=1, position=3)
     forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
     forum.save()
-
 
 
 @data.command("seed_ile")
