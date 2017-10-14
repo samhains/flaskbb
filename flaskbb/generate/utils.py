@@ -10,9 +10,9 @@ def load_model(data_fname):
 
 def create_model_from_text(text, output_fname):
     # Build the model.
-    print(text)
     text_model = markovify.Text(text)
     model_json = text_model.to_json()
+    print('saving model', output_fname)
     with open(output_fname, "w") as f:
         json.dump(model_json, f)
 
