@@ -65,15 +65,16 @@ def scrape(hours,step,folderName,subName):
         obj.close()
         c+=1
 
-def run(subreddit, hours):
+def run(subreddit, hours, delete_old=True):
 
     folderName = "flaskbb/scrapers/{}".format(subreddit)
 
     if not os.path.exists(folderName):
         os.makedirs(folderName)
     else:
-        shutil.rmtree(folderName)
-        os.makedirs(folderName)
+        if delete_old:
+            shutil.rmtree(folderName)
+            os.makedirs(folderName)
 
     try:
         step = 30

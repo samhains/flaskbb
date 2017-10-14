@@ -41,8 +41,16 @@ def save_thread(user, forum, subreddit):
     thread.save(user=user, forum=forum, post=post)
 
 def seed_users():
-    text = process.get_username_str()
-    print(text)
+    subreddits = ["politics"]
+    text = ""
+    for subreddit in subreddits:
+        json_path = "flaskbb/scrapers/{}".format(subreddit)
+        text = text + process.get_usernames_text(json_path)
+        text += "\n"
+
+    utils.save_user(text)
+
+    return 
 
 def save_post(forum, user, topic, subreddit):
     # Print three randomly-generated sentences of no more than 140 characters

@@ -30,6 +30,8 @@ from flask_babelplus import lazy_gettext as _
 from flask_themes2 import render_theme_template, get_themes_list
 from flask_login import current_user
 
+# from flaskbb.user.models import User
+
 from werkzeug.local import LocalProxy
 
 from flaskbb._compat import range_method, text_type, iteritems, to_unicode, to_bytes
@@ -338,16 +340,20 @@ def get_online_users(guest=False):  # pragma: no cover
 
     :param guest: If True, it will return the online guests
     """
-    current = int(time.time()) // 60
-    minutes = range_method(flaskbb_config['ONLINE_LAST_MINUTES'])
-    if guest:
-        users = redis_store.sunion(['online-guests/%d' % (current - x)
-                                   for x in minutes])
-    else:
-        users = redis_store.sunion(['online-users/%d' % (current - x)
-                                   for x in minutes])
+    # current = int(time.time()) // 60
+    # minutes = range_method(flaskbb_config['ONLINE_LAST_MINUTES'])
+    time_now = datetime.datetime.now()
+    twelve_earlier = time_now - datetime.timedelta(hours=12)
+    # posts = Post.query.filter(Post.created_at <= twelve_earlier)
+    # print(posts)
+    # if guest:
+        # users = redis_store.sunion(['online-guests/%d' % (current - x)
+                                   # for x in minutes])
+    # else:
+        # users = redis_store.sunion(['online-users/%d' % (current - x)
+                                   # for x in minutes])
 
-    return [to_unicode(u) for u in users]
+    # return [to_unicode(u) for u in users]
 
 
 def crop_title(title, length=None, suffix="..."):

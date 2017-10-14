@@ -10,6 +10,7 @@
     :license: BSD, see LICENSE for more details.
 '''
 import math
+import random
 
 from flask import (Blueprint, abort, current_app, flash, redirect, request,
                    url_for)
@@ -48,17 +49,17 @@ class ForumIndex(MethodView):
         topic_count = Topic.query.count()
         post_count = Post.query.count()
         newest_user = User.query.order_by(User.id.desc()).first()
+        print('newest', newest_user)
 
         # Check if we use redis or not
         if not current_app.config['REDIS_ENABLED']:
-            online_users = len(User.get_active())
-
+            online_users = len(User.get_active()) + random.randint(-3, 3)
             # Because we do not have server side sessions, we cannot check if there
             # are online guests
             online_guests = None
         else:
 
-            online_users = len(User.get_active())
+            online_users = len(User.get_active()) + random.randint(-3,3)
             online_guests = len(get_online_users(guest=True))
 
         return render_template(

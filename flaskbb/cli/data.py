@@ -26,6 +26,7 @@ from flaskbb.extensions import plugin_manager
 from flaskbb.plugins.data.models import RawData
 import flaskbb.generate.reddit as reddit
 import flaskbb.generate.ilxor as ilxor
+import flaskbb.generate.utils as generate_utils
 import flaskbb.scrapers.subredditarchive as reddit_scraper
 
 import csv
@@ -72,20 +73,12 @@ def generate_thread_corpus():
         # f.write(post.message.encode('utf-8').strip()+"\n")
 
 
-@data.command("generate_user")
+@data.command("generate_ilxor_user")
 def generate_user():
     with open("{}/users.txt".format(DATA_DIR)) as f:
         text = f.read().split('\n')
 
-    for username in text:
-        try: 
-            username = username.decode('ascii')
-            user = User.query.filter(User.username==username).all()
-            if len(user) == 0:
-                user = User(username=username, email="{}@gmail.com".format(username), _password="password", primary_group_id=4, activated=1)
-                user.save()
-        except:
-            print('not asciiable')
+    generate_utils.save_users(text)
 
 
 @data.command("create_base_ilm_model")
@@ -129,9 +122,9 @@ def seed_ilxor(fname):
 
 @data.command("update_reddit_models")
 def update_reddit_models():
-    subreddit = "politics"
-    hours = 24
-    # reddit_scraper.run(subreddit, 24)
+    subreddit = "dankmemes"
+    hours = 10000
+    reddit_scraper.run(subreddit, hours, delete_old=False)
     reddit.create_reddit_post_model(subreddit)
     reddit.create_reddit_title_model(subreddit)
 
