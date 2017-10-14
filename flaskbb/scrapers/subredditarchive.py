@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 import datetime
+import shutil
 import praw
 import os
 import traceback
@@ -27,9 +28,9 @@ def resume():
 # folderName=str(subName+' '+str(sdate)+' '+str(edate))
 
     
-def scrape(startStamp,step,folderName,subName):
+def scrape(hours,step,folderName,subName):
     time_now = datetime.datetime.now()
-    twelve_earlier = time_now - datetime.timedelta(hours=12)
+    twelve_earlier = time_now - datetime.timedelta(hours=hours)
 
     endStamp= int(time.mktime(time_now.timetuple()))
     startStamp= int(time.mktime(twelve_earlier.timetuple()))
@@ -64,17 +65,19 @@ def scrape(startStamp,step,folderName,subName):
         obj.close()
         c+=1
 
-folderName = "politics_now"
+def run(subreddit, hours):
 
-if not os.path.exists(folderName):
-    os.makedirs(folderName)
+    folderName = "flaskbb/scrapers/{}".format(subreddit)
 
-while True:
+    if not os.path.exists(folderName):
+        os.makedirs(folderName)
+    else:
+        shutil.rmtree(folderName)
+        os.makedirs(folderName)
+
     try:
-        startStamp = "01/01/2016"
         step = 30
-        subName = "politics"
-        scrape(startStamp, step, folderName, subName)
+        scrape(hours, step, folderName, subreddit)
         print("Succesfully got all posts within parameters.")
     except KeyboardInterrupt:
         exit()

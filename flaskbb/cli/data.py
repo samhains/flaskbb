@@ -26,6 +26,7 @@ from flaskbb.extensions import plugin_manager
 from flaskbb.plugins.data.models import RawData
 import flaskbb.generate.reddit as reddit
 import flaskbb.generate.ilxor as ilxor
+import flaskbb.scrapers.subredditarchive as reddit_scraper
 
 import csv
 
@@ -126,6 +127,14 @@ def seed_ilxor(fname):
                 raw_data = RawData(thread_id=thread_id, thread_name=thread_name, post_num=post_num, username=username, message=message, forum_id=forum_id)
                 raw_data.save()
 
+@data.command("update_reddit_models")
+def update_reddit_models():
+    subreddit = "politics"
+    hours = 24
+    # reddit_scraper.run(subreddit, 24)
+    reddit.create_reddit_post_model(subreddit)
+    reddit.create_reddit_title_model(subreddit)
+
 @data.command("seed_forums")
 def seed_forums():
     # forum = Forum(title="Everything", description="general discussion", category_id=1, position=2)
@@ -133,6 +142,9 @@ def seed_forums():
     forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
     forum.save()
 
+@data.command("seed_reddit_users")
+def seed_reddit_users():
+    reddit.seed_users()
 
 @data.command("seed_ile")
 def seed_ilm():

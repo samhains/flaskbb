@@ -57,7 +57,9 @@ class ForumIndex(MethodView):
             # are online guests
             online_guests = None
         else:
-            online_users = len(get_online_users())
+
+            online_users = len(User.get_active())
+            print(online_users)
             online_guests = len(get_online_users(guest=True))
 
         return render_template(
@@ -659,7 +661,9 @@ class WhoIsOnline(MethodView):
         if current_app.config['REDIS_ENABLED']:
             online_users = get_online_users()
         else:
-            online_users = User.query.filter(User.lastseen >= time_diff()).all()
+
+            # online_users = User.query.filter(User.lastseen >= time_diff()).all()
+            online_users = User.get_active()
         return render_template('forum/online_users.html', online_users=online_users)
 
 

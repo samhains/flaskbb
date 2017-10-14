@@ -35,6 +35,29 @@ def get_title_str(fname):
 
         return str
 
+def get_username_str(fname):
+    with open(fname) as data_file:    
+        data = json.load(data_file)
+        user_set = set()
+
+        for item in data:
+            posts = item["data"]["children"]
+            for post in posts:
+                kind = post["kind"]
+                data = post["data"]
+                if kind == "t3":
+                    username = data["author"]
+                    user_set.update(username)
+                elif kind == "t1":
+                    username = data["author"]
+                    user_set.update(username)
+        print(user_set)
+
+                    # args = [str(thread_id), title, str(post_num), username, body, board_id]
+                    # csvwriter.writerow(encode_arr(args))
+
+        # return str
+
 def get_post_str(fname):
     with open(fname) as data_file:    
         data = json.load(data_file)
@@ -61,6 +84,7 @@ def get_post_str(fname):
                     # csvwriter.writerow(encode_arr(args))
 
         return str
+
 
 def get_data_fnames(data_path):
     return [join(data_path, f) for f in listdir(data_path) if isfile(join(data_path, f)) and join(data_path, f).endswith('.json')]
