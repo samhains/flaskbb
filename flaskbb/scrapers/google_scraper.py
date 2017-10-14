@@ -26,42 +26,28 @@ def delete_files(folder):
 def get_soup(url,header):
     return BeautifulSoup(urllib2.urlopen(urllib2.Request(url,headers=header)),'html.parser')
 
-def main(seed_name, max_images, query, id_num):
-        print(seed_name, max_images, query, id_num)
-	save_directory = './memes/'
-	image_type="Action"
+def run(max_images, query):
+	whitelist = set('abcdefghijklmnopqrstuvwxy ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+	query = ''.join(filter(whitelist.__contains__, query))
 	arr = query.split()
 	query='+'.join(arr)
 	header={'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36"}
 	url="https://www.google.co.in/search?q="+query+"&source=lnms&tbm=isch"
 	soup = get_soup(url,header)
-	ActualImages=[]# contains the link for Large original images, type of  image
+	ActualImages=[] # contains the link for Large original images, type of  image
 	for a in soup.find_all("div",{"class":"rg_meta"}):
 	    link , Type =json.loads(a.text)["ou"]  ,json.loads(a.text)["ity"]
 	    ActualImages.append((link,Type))
 	random.shuffle(ActualImages)
-	print('num of images', len(ActualImages), query)
-	for i , (img , Type) in enumerate( ActualImages[0:max_images]):
-	    try:
-		req = urllib2.Request(img, headers={'User-Agent' : header})
-		raw_img = urllib2.urlopen(req).read()
+	
+	type = ''
 
-		if Type == "jpg":
-		    hash_int = random.getrandbits(16)
-		    url = "{}_{}_{}_{}.jpg".format(id_num, seed_name, query, i)
-		    print("saving",url)
-		    f = open(os.path.join(save_directory , url), 'wb')
-		    f.write(raw_img)
-		    type_str = imghdr.what(os.path.join(save_directory , url))
-		    if type_str != "jpeg":
-			raise Exception('not JPEG') 
-			continue
+	for (url, type) in ActualImages:
+	  print(url, type)
+	  if type == 'jpg' or type == 'jpeg':
+	    return url
 
-		    f.close()
 
-	    except Exception as e:
-		print "could not load : "+img
-		print e
 
 if __name__ == '__main__':
     from sys import argv

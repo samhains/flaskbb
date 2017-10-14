@@ -1,5 +1,6 @@
 import flaskbb.generate.utils as utils
 import flaskbb.generate.process_reddit as process
+import flaskbb.scrapers.google_scraper as google_scraper
 from flaskbb.forum.models import Topic, Post, Forum
 import random
 
@@ -52,6 +53,13 @@ def seed_users():
 
     return 
 
+def save_image_post(forum, user, topic, subreddit, image_url):
+    # Print three randomly-generated sentences of no more than 140 characters
+    post_content = "![]({})".format(image_url)
+    # post_content = generate_body(subreddit)
+    post = Post(content=post_content)
+    post.save(user=user, topic=topic)
+
 def save_post(forum, user, topic, subreddit):
     # Print three randomly-generated sentences of no more than 140 characters
     post_content = generate_body(subreddit)
@@ -62,10 +70,14 @@ def generate_post(user, forum):
     rand_val = random.random()
     subreddits = ["politics", "The_Donald"]
     subreddit = random.choice(subreddits)
+    topics = Topic.query.filter(Topic.forum_id == forum.id).all()
+    topic = random.choice(topics)
+    url = google_scraper.run(100, topic.title)
+    save_image_post(forum, user, topic, subreddit, url)
 
-    if rand_val > THREAD_TO_POST_RATIO:
-        save_thread(user, forum, subreddit)
-    else:
-        topics = Topic.query.filter(Topic.forum_id == forum.id).all()
-        topic = random.choice(topics)
-        save_post(forum, user, topic, subreddit)
+    # if rand_val > THREAD_TO_POST_RATIO:
+        # save_thread(user, forum, subreddit)
+    # else:
+        # topics = Topic.query.filter(Topic.forum_id == forum.id).all()
+        # topic = random.choice(topics)
+        # save_post(forum, user, topic, subreddit)
