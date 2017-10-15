@@ -95,8 +95,7 @@ def create_base_ile_model():
 def run():
     for i in range(0, 100):
         # r1 = random.random()
-        forum_id = random.randint(1,3)
-        forum_id = 4
+        forum_id = random.randint(1,4)
         forum = Forum.query.filter(Forum.id==forum_id).all()[0]
         users = User.query.all()
         user = random.choice(users)
@@ -144,8 +143,8 @@ def update_reddit_models():
 
 @data.command("seed_forums")
 def seed_forums():
-    # forum = Forum(title="Everything", description="general discussion", category_id=1, position=2)
-    forum = Forum(title="Memiverse", description="culture spreading like virus", category_id=1, position=4)
+    forum = Forum(title="Everything", description="general discussion", category_id=1, position=2)
+    # forum = Forum(title="Memiverse", description="culture spreading like virus", category_id=1, position=4)
     # forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
     forum.save()
 

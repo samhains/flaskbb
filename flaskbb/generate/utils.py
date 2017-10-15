@@ -1,11 +1,14 @@
 import json
 import random
+import uuid
+import pyimgur
 import markovify
 from flaskbb.user.models import User
 from flaskbb.forum.models import Topic, Post, Forum
 from flaskbb.generate.microsoft_azure import analyse_image
 import flaskbb.scrapers.google_scraper as google_scraper
 
+IMGUR_CLIENT_ID = "435f67c1a9fb655"
 
 def caption_img(image_url):
     try: 
@@ -80,6 +83,13 @@ def generate_paragraph(text_model, max_paragraph_size):
     post_content += "\n"
 
     return post_content
+
+def upload_image(image_url):
+
+    title = uuid.uuid4()
+    im = pyimgur.Imgur(IMGUR_CLIENT_ID)
+    uploaded_image = im.upload_image(image_url, title=title)
+    return uploaded_image
 
 def load_model(data_fname):
     with open(data_fname) as data_file:    

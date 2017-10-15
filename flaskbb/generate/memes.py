@@ -5,6 +5,7 @@ from flaskbb.forum.models import Topic, Post, Forum
 import flaskbb.generate.utils as utils
 from flaskbb.user.models import User
 import random
+import os
 
 DATA_DIR = "markov_data"
 MEME_FORUM_ID = 4
@@ -43,19 +44,24 @@ def memes_post(user, forum):
     topics = Topic.query.filter(Topic.forum_id == forum.id).all()
     topic = random.choice(topics)
     text_model = utils.load_model(model_fname()) 
-    utils.post_or_image(forum, user, topic, text_model)
     rand_val = random.random()
     title = topic.title
-    print(title)
 
     if not title.endswith('meme'):
-        title += " meme"
-        print('adding meme')
+        title += "meme"
+    print(title)
+
 
     if rand_val < 0.2:
         utils.save_post(forum, user, topic, text_model)
-    elif rand_val >= 0.2 and rand_val <= 0.9:
-        url = google_scraper.run(100, topic.title)
+    elif rand_val >= 0.12 and rand_val <= 0.92:
+        if random.random() > 0.5:
+            gan_path_prefix = "{}/memes_gan/".format(DATA_DIR)
+            meme_files = [gan_path_prefix+fname for fname in os.listdir(gan_path_prefix)]
+            meme_file = random.choice(meme_files)
+            url = utils.upload_image(meme_file).link
+        else:
+            url = google_scraper.run(100, topic.title)
         utils.save_image_post_markov(forum, user, topic, text_model, url)
     else:
         url = google_scraper.run(100, topic.title)
