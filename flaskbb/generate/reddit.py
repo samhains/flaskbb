@@ -2,6 +2,7 @@ import flaskbb.generate.utils as utils
 import flaskbb.generate.process_reddit as process
 import flaskbb.scrapers.google_scraper as google_scraper
 from flaskbb.forum.models import Topic, Post, Forum
+from flaskbb.user.models import User
 import random
 
 JSON_PATH = 'markov_data/donald_latest_json'
@@ -53,19 +54,49 @@ def seed_users():
 
     return 
 
-def save_image_post_markov(forum, user, topic, subreddit, image_url):
-    # Print three randomly-generated sentences of no more than 140 characters
-    range_int = random.randint(0,3)
+def randomized_multiple_markov_bodies(subreddit, range_int):
     post_content = ""
+    range_int = random.randint(0, range_int)
 
     for i in range(0, range_int):
         post_content += generate_body(subreddit)
         post_content += "\n"
         post_content += "\n"
+    return post_content
 
+def save_image_post_markov(forum, user, topic, subreddit, image_url):
+    # Print three randomly-generated sentences of no more than 140 characters
+    post_content = randomized_multiple_markov_bodies(subreddit, 3)
     post_content += "![]({})".format(image_url)
     post = Post(content=post_content)
     post.save(user=user, topic=topic)
+
+def save_image_post_caption(forum, user, topic, subreddit, image_url):
+    # Print three randomly-generated sentences of no more than 140 characters
+    caption = utils.caption_img(image_url)
+    save_post_with_image_and_text(user, topic, image_url, caption)
+    users = User.query.all()
+    range_int = random.randint(0, 2)
+
+    for i in range(0, range_int):
+        # post caption of previous image
+        user = random.choice(users)
+        post_content = randomized_multiple_markov_bodies(subreddit, 1)
+        image_url = google_scraper.run(10, caption)
+        text = utils.caption_img(image_url)
+        post_content += text
+        save_post_with_image_and_text(user, topic, image_url, post_content)
+
+def save_post_with_image_and_text(user, topic, image_url, text):
+    post_content = ""
+    post_content += text
+    post_content += "\n"
+    post_content += "\n"
+    post_content += "![]({})".format(image_url)
+    post = Post(content=post_content)
+    post.save(user=user, topic=topic)
+
+
 
 def save_post(forum, user, topic, subreddit):
     # Print three randomly-generated sentences of no more than 140 characters
@@ -79,12 +110,8 @@ def generate_post(user, forum):
     subreddit = random.choice(subreddits)
     topics = Topic.query.filter(Topic.forum_id == forum.id).all()
     topic = random.choice(topics)
-    # url = google_scraper.run(100, topic.title)
-    # print('here')
-    caption = utils.caption_img("https://www.w3schools.com/w3images/fjords.jpg")
-    # print(caption)
-
-    # save_image_post_markov(forum, user, topic, subreddit, url)
+    url = google_scraper.run(100, topic.title)
+    save_image_post_caption(forum, user, topic, subreddit, url)
 
     # if rand_val > THREAD_TO_POST_RATIO:
         # save_thread(user, forum, subreddit)
