@@ -1,9 +1,8 @@
+import random
 import flaskbb.generate.utils as utils
 import flaskbb.generate.process_reddit as process
-import flaskbb.scrapers.google_scraper as google_scraper
-from flaskbb.forum.models import Topic, Post, Forum
-from flaskbb.user.models import User
-import random
+from flaskbb.forum.models import Topic, Post
+
 
 JSON_PATH = 'markov_data/donald_latest_json'
 MARKOV_MODEL_DIR = "markov_models"

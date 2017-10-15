@@ -26,6 +26,7 @@ from flaskbb.extensions import plugin_manager
 from flaskbb.plugins.data.models import RawData
 import flaskbb.generate.reddit as reddit
 import flaskbb.generate.ilxor as ilxor
+import flaskbb.generate.memes as memes
 import flaskbb.generate.utils as generate_utils
 import flaskbb.scrapers.reddit_scraper as reddit_scraper
 
@@ -94,15 +95,23 @@ def create_base_ile_model():
 def run():
     for i in range(0, 100):
         # r1 = random.random()
-        forum_id = 1
-
-        forums = Forum.query.filter(Forum.id==forum_id).all()
-        forum = random.choice(forums)
+        forum_id = random.randint(1,3)
+        forum_id = 4
+        forum = Forum.query.filter(Forum.id==forum_id).all()[0]
         users = User.query.all()
         user = random.choice(users)
-        # reddit.generate_post(user, forum)
 
-        ilxor.ilxor_post(user, forum)
+        if forum_id == 3:
+            reddit.reddit_post(user, forum)
+        elif forum_id == 4:
+            memes.memes_post(user, forum)
+        else:
+            ilxor.ilxor_post(user, forum)
+
+@data.command("seed_meme_topics")
+def seed_meme_topics():
+    memes.seed_topics()
+
 
 def seed_ilxor(fname):
     with open('{}/{}.csv'.format(DATA_DIR,fname), 'rb') as csvfile:
@@ -120,6 +129,10 @@ def seed_ilxor(fname):
                 raw_data = RawData(thread_id=thread_id, thread_name=thread_name, post_num=post_num, username=username, message=message, forum_id=forum_id)
                 raw_data.save()
 
+@data.command("create_memes_model")
+def update_reddit_models():
+    memes.create_memes_model()
+
 @data.command("update_reddit_models")
 def update_reddit_models():
     subreddits = ["The_Donald", "politics"]
@@ -132,8 +145,8 @@ def update_reddit_models():
 @data.command("seed_forums")
 def seed_forums():
     # forum = Forum(title="Everything", description="general discussion", category_id=1, position=2)
-    # forum = Forum(title="Memiverse", description="culture spreading like virus", category_id=1, position=3)
-    forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
+    forum = Forum(title="Memiverse", description="culture spreading like virus", category_id=1, position=4)
+    # forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
     forum.save()
 
 @data.command("seed_reddit_users")

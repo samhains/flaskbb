@@ -72,7 +72,7 @@ def generate_paragraph(text_model, max_paragraph_size):
     max_paragraph_size = random.randint(1, max_paragraph_size)
 
     for i in range(0, max_paragraph_size):
-        post_content += text_model.make_sentence()
+        post_content += text_model.make_sentence(test_output=False)
         post_content += " "
 
 
@@ -115,7 +115,7 @@ def post_or_image(forum, user, topic, text_model):
     topics = Topic.query.filter(Topic.forum_id == forum.id).all()
     topic = random.choice(topics)
 
-    if rand_val > 0.60 and rand_val < 0.85:
+    if rand_val > 0.50 and rand_val < 0.85:
         url = google_scraper.run(50, topic.title)
         save_image_post_markov(forum, user, topic, text_model, url)
     elif rand_val >= 0.85:
