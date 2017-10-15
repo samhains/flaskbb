@@ -77,4 +77,9 @@ Session.vim
 # auto-generated tag files
 tags
 
+markov_models/thread_*
+flaskbb/scrapers/politics
+flaskbb/scrapers/dankmemes
+flaskbb/scrapers/The_Donald
+
 # End of https://www.gitignore.io/api/vim
