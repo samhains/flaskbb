@@ -53,25 +53,17 @@ def seed_users():
     return 
 
 
-def generate_post(user, forum):
+def reddit_post(user, forum):
     rand_val = random.random()
+
     subreddits = ["politics", "The_Donald"]
     subreddit = random.choice(subreddits)
-    topics = Topic.query.filter(Topic.forum_id == forum.id).all()
-    topic = random.choice(topics)
-    url = google_scraper.run(100, topic.title)
 
     if rand_val > THREAD_TO_POST_RATIO:
         save_thread(user, forum, subreddit)
     else:
-        rand_val = random.random()
         topics = Topic.query.filter(Topic.forum_id == forum.id).all()
         topic = random.choice(topics)
         text_model = utils.load_model(model_fname(subreddit, 'post')) 
+        utils.post_or_image(forum, user, topic, text_model)
 
-        if rand_val > 0.7 and rand_val < 0.85:
-            utils.save_image_post_markov(forum, user, topic, text_model, url)
-        elif rand_val >= 0.85:
-            utils.save_image_post_caption(forum, user, topic, text_model, url)
-        else:
-            utils.save_post(forum, user, topic, text_model)

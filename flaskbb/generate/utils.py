@@ -109,6 +109,21 @@ def create_model_from_file(data_fname, output_fname):
 
     return text_model
 
+
+def post_or_image(forum, user, topic, text_model):
+    rand_val = random.random()
+    topics = Topic.query.filter(Topic.forum_id == forum.id).all()
+    topic = random.choice(topics)
+
+    if rand_val > 0.60 and rand_val < 0.85:
+        url = google_scraper.run(50, topic.title)
+        save_image_post_markov(forum, user, topic, text_model, url)
+    elif rand_val >= 0.85:
+        url = google_scraper.run(50, topic.title)
+        save_image_post_caption(forum, user, topic, text_model, url)
+    else:
+        save_post(forum, user, topic, text_model)
+
 def save_user(text):
     text = text.split("\n")
     for username in text:

@@ -94,15 +94,15 @@ def create_base_ile_model():
 def run():
     for i in range(0, 100):
         # r1 = random.random()
-        forum_id = 3
+        forum_id = 1
 
         forums = Forum.query.filter(Forum.id==forum_id).all()
         forum = random.choice(forums)
         users = User.query.all()
         user = random.choice(users)
-        reddit.generate_post(user, forum)
+        # reddit.generate_post(user, forum)
 
-        # ilxor.ilxor_post(user, forum)
+        ilxor.ilxor_post(user, forum)
 
 def seed_ilxor(fname):
     with open('{}/{}.csv'.format(DATA_DIR,fname), 'rb') as csvfile:

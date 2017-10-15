@@ -1,6 +1,7 @@
 from flaskbb.plugins.data.models import RawData
 from flaskbb.forum.models import Topic, Post, Forum
 import flaskbb.generate.utils as utils
+import flaskbb.scrapers.google_scraper as google_scraper
 
 import markovify
 import os
@@ -94,8 +95,8 @@ def save_thread(user, forum):
 
     post_content = text_model.make_sentence()
     post = Post(content=post_content)
-    thread = Topic(title=thread_name)
-    thread.save(user=user, forum=forum, post=post, thread_id=thread_id)
+    topic = Topic(title=thread_name)
+    topic.save(user=user, forum=forum, post=post, thread_id=thread_id)
 
 
 def generate_post(forum, user, topic, text_model):
@@ -108,11 +109,9 @@ def ilxor_post(user, forum):
     rand_val = random.random()
 
     if rand_val > THREAD_TO_POST_RATIO:
-
         save_thread(user, forum)
     else:
-        threads = Topic.query.filter(Topic.forum_id==forum.id).all()
-        thread = random.choice(threads)
-        thread_model = get_thread_model(forum, thread.id)
-        generate_post(forum, user, thread, thread_model)
-
+        topics = Topic.query.filter(Topic.forum_id==forum.id).all()
+        topic = random.choice(topics)
+        text_model = get_thread_model(forum, topic.id)
+        utils.post_or_image(forum, user, topic, text_model)
