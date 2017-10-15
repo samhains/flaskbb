@@ -17,12 +17,6 @@ def generate_title(subreddit):
     title = text_model.make_sentence(tries=100)
     return title 
 
-def generate_body(subreddit):
-    max_paragraphs = 2
-    max_paragraph_size = 4
-    text_model = utils.load_model(model_fname(subreddit, 'post')) 
-    post_content = utils.generate_paragraphs(text_model, max_paragraphs, max_paragraph_size)
-    return post_content 
 
 # def parse_json(fname):
 def create_reddit_post_model(subreddit):
@@ -38,7 +32,9 @@ def create_reddit_title_model(subreddit):
 def save_thread(user, forum, subreddit):
 
     thread_name = generate_title(subreddit)
-    post_content = generate_body(subreddit)
+
+    text_model = utils.load_model(model_fname(subreddit, 'post')) 
+    post_content = utils.generate_body(text_model)
 
     post = Post(content=post_content)
     thread = Topic(title=thread_name)
@@ -56,45 +52,6 @@ def seed_users():
 
     return 
 
-def save_image_post_markov(forum, user, topic, subreddit, image_url):
-    # Print three randomly-generated sentences of no more than 140 characters
-    post_content = generate_body(subreddit)
-    post_content += "![]({})".format(image_url)
-    post = Post(content=post_content)
-    post.save(user=user, topic=topic)
-
-def save_image_post_caption(forum, user, topic, subreddit, image_url):
-    # Print three randomly-generated sentences of no more than 140 characters
-    caption = utils.caption_img(image_url)
-    save_post_with_image_and_text(user, topic, image_url, caption)
-    users = User.query.all()
-    range_int = random.randint(0, 2)
-
-    for i in range(0, range_int):
-        # post caption of previous image
-        user = random.choice(users)
-        post_content = generate_body(subreddit)
-        image_url = google_scraper.run(2, caption)
-        text = utils.caption_img(image_url)
-        post_content += text
-        save_post_with_image_and_text(user, topic, image_url, post_content)
-
-def save_post_with_image_and_text(user, topic, image_url, text):
-    post_content = ""
-    post_content += text
-    post_content += "\n"
-    post_content += "\n"
-    post_content += "![]({})".format(image_url)
-    post = Post(content=post_content)
-    post.save(user=user, topic=topic)
-
-
-
-def save_post(forum, user, topic, subreddit):
-    # Print three randomly-generated sentences of no more than 140 characters
-    post_content = generate_body(subreddit)
-    post = Post(content=post_content)
-    post.save(user=user, topic=topic)
 
 def generate_post(user, forum):
     rand_val = random.random()
@@ -110,9 +67,11 @@ def generate_post(user, forum):
         rand_val = random.random()
         topics = Topic.query.filter(Topic.forum_id == forum.id).all()
         topic = random.choice(topics)
+        text_model = utils.load_model(model_fname(subreddit, 'post')) 
+
         if rand_val > 0.7 and rand_val < 0.85:
-            save_image_post_markov(forum, user, topic, subreddit, url)
+            utils.save_image_post_markov(forum, user, topic, text_model, url)
         elif rand_val >= 0.85:
-            save_image_post_caption(forum, user, topic, subreddit, url)
+            utils.save_image_post_caption(forum, user, topic, text_model, url)
         else:
-            save_post(forum, user, topic, subreddit)
+            utils.save_post(forum, user, topic, text_model)

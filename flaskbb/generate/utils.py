@@ -2,7 +2,9 @@ import json
 import random
 import markovify
 from flaskbb.user.models import User
+from flaskbb.forum.models import Topic, Post, Forum
 from flaskbb.generate.microsoft_azure import analyse_image
+import flaskbb.scrapers.google_scraper as google_scraper
 
 
 def caption_img(image_url):
@@ -11,6 +13,50 @@ def caption_img(image_url):
     except:
         print("problem captioning image!")
         return ""
+
+def generate_body(text_model):
+    max_paragraphs = 2
+    max_paragraph_size = 4
+    post_content = generate_paragraphs(text_model, max_paragraphs, max_paragraph_size)
+    return post_content 
+
+def save_image_post_markov(forum, user, topic, text_model, image_url):
+    post_content = generate_body(text_model)
+    post_content += "![]({})".format(image_url)
+    post = Post(content=post_content)
+    post.save(user=user, topic=topic)
+
+def save_image_post_caption(forum, user, topic, text_model, image_url):
+    caption = caption_img(image_url)
+    save_post_with_image_and_text(user, topic, image_url, caption)
+    users = User.query.all()
+    range_int = random.randint(0, 2)
+
+    for i in range(0, range_int):
+        # post caption of previous image
+        user = random.choice(users)
+        post_content = generate_body(text_model)
+        image_url = google_scraper.run(2, caption)
+        text = caption_img(image_url)
+        post_content += text
+        save_post_with_image_and_text(user, topic, image_url, post_content)
+
+def save_post_with_image_and_text(user, topic, image_url, text):
+    post_content = ""
+    post_content += text
+    post_content += "\n"
+    post_content += "\n"
+    post_content += "![]({})".format(image_url)
+    post = Post(content=post_content)
+    post.save(user=user, topic=topic)
+
+
+
+def save_post(forum, user, topic, text_model):
+    # Print three randomly-generated sentences of no more than 140 characters
+    post_content = generate_body(text_model)
+    post = Post(content=post_content)
+    post.save(user=user, topic=topic)
 
 def generate_paragraphs(text_model, max_paragraphs, max_paragraph_size):
     post_content = ""
