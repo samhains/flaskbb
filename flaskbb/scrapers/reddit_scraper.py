@@ -84,3 +84,5 @@ def run(subreddit, hours, delete_old=True):
         exit()
     except SystemExit:
         exit()
+    except:
+        print("other error")

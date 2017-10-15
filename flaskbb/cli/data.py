@@ -92,7 +92,7 @@ def create_base_ile_model():
 
 @data.command("run")
 def run():
-    for i in range(0, 100):
+    for i in range(0, 1):
         # r1 = random.random()
         forum_id = 3
 
@@ -122,11 +122,12 @@ def seed_ilxor(fname):
 
 @data.command("update_reddit_models")
 def update_reddit_models():
-    subreddit = "dankmemes"
-    hours = 10000
-    reddit_scraper.run(subreddit, hours, delete_old=False)
-    reddit.create_reddit_post_model(subreddit)
-    reddit.create_reddit_title_model(subreddit)
+    subreddits = ["The_Donald", "politics"]
+    hours = 24
+    for subreddit in subreddits:
+        reddit_scraper.run(subreddit, hours)
+        reddit.create_reddit_post_model(subreddit)
+        reddit.create_reddit_title_model(subreddit)
 
 @data.command("seed_forums")
 def seed_forums():

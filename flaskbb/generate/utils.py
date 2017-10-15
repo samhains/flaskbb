@@ -1,6 +1,16 @@
 import json
 import markovify
 from flaskbb.user.models import User
+from flaskbb.generate.microsoft_azure import analyse_image
+
+
+def caption_img(image_url):
+    try: 
+        return analyse_image(image_url)["description"]["captions"][0]["text"]
+    except:
+        print("problem captioning image!")
+        return ""
+
 
 def load_model(data_fname):
     with open(data_fname) as data_file:    
