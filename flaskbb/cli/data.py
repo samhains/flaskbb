@@ -92,7 +92,7 @@ def create_base_ile_model():
 
 @data.command("run")
 def run():
-    for i in range(0, 1):
+    for i in range(0, 100):
         # r1 = random.random()
         forum_id = 3
 

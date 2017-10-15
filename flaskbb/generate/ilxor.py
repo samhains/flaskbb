@@ -97,6 +97,7 @@ def save_thread(user, forum):
     thread = Topic(title=thread_name)
     thread.save(user=user, forum=forum, post=post, thread_id=thread_id)
 
+
 def generate_post(forum, user, topic, text_model):
     # Print three randomly-generated sentences of no more than 140 characters
     post_content = text_model.make_sentence()

@@ -1,4 +1,5 @@
 import json
+import random
 import markovify
 from flaskbb.user.models import User
 from flaskbb.generate.microsoft_azure import analyse_image
@@ -11,6 +12,28 @@ def caption_img(image_url):
         print("problem captioning image!")
         return ""
 
+def generate_paragraphs(text_model, max_paragraphs, max_paragraph_size):
+    post_content = ""
+    max_paragraphs = random.randint(1, max_paragraphs)
+    for i in range(0, max_paragraphs):
+        post_content += generate_paragraph(text_model, max_paragraph_size)
+
+    return post_content
+
+
+def generate_paragraph(text_model, max_paragraph_size):
+    post_content = ""
+    max_paragraph_size = random.randint(1, max_paragraph_size)
+
+    for i in range(0, max_paragraph_size):
+        post_content += text_model.make_sentence()
+        post_content += " "
+
+
+    post_content += "\n"
+    post_content += "\n"
+
+    return post_content
 
 def load_model(data_fname):
     with open(data_fname) as data_file:    
