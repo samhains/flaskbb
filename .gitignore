@@ -78,6 +78,7 @@ Session.vim
 tags
 
 markov_models/thread_*
+markov_data/*
 flaskbb/scrapers/politics
 flaskbb/scrapers/dankmemes
 flaskbb/scrapers/The_Donald

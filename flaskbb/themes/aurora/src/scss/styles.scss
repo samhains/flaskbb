@@ -13,7 +13,7 @@
 // Import the Bootstrap-Markdown editor
 @import "node_modules/bootstrap-markdown/css/bootstrap-markdown.min";
 
-button, select, input, a, .label-info {
+button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     border-radius: 0!important;
 }
 
@@ -21,6 +21,6 @@ button, select, input, a, .label-info {
     padding-left: 0!important;
 }
 
-//.flaskbb-layout {
-    //background: black;
-//}
+.panel {
+    box-shadow: none;
+}

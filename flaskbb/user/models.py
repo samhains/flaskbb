@@ -106,7 +106,7 @@ class User(db.Model, UserMixin, CRUDMixin):
 
     last_failed_login = db.Column(UTCDateTime(timezone=True), nullable=True)
     login_attempts = db.Column(db.Integer, default=0, nullable=False)
-    activated = db.Column(db.Boolean, default=False, nullable=False)
+    activated = db.Column(db.Boolean, default=True, nullable=False)
 
     theme = db.Column(db.String(15), nullable=True)
     language = db.Column(db.String(15), default="en", nullable=True)

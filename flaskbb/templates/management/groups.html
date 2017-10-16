@@ -25,7 +25,7 @@
 <div class="col-md-9 settings-col with-left-border">
     <div class="panel settings-panel">
         <div class="panel-heading settings-head">
-            <span class="fa fa-users"></span> {% trans %}Groups{% endtrans %}
+            <span class=""></span> {% trans %}Groups{% endtrans %}
         </div>
         <div class="panel-body settings-body">
             <div class="settings-content">
@@ -36,12 +36,12 @@
                     <div class="col-md-2 col-sm-2 col-xs-5">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                <span class="fa fa-fw fa-cog"></span> {% trans %}Actions{% endtrans %}
+                                <span class=""></span> {% trans %}Actions{% endtrans %}
                             </button>
                             <ul class="dropdown-menu slidedown">
                                 <li>
                                     <button class="btn btn-link" onclick="return bulk_actions.execute('{{ url_for('management.delete_group') }}')">
-                                        <span class="fa fa-fw fa-trash text-danger"></span> {% trans %}Delete selected Groups{% endtrans %}
+                                        <span class="text-danger"></span> {% trans %}Delete selected Groups{% endtrans %}
                                     </button>
                                 </li>
                             </ul>
@@ -61,7 +61,7 @@
                         <form class="inline-form" id="delete-{{group.id}}" method="post" action="{{ url_for('management.delete_group', group_id=group.id) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                             <button class="btn btn-icon" name="confirmDialog" data-toggle="tooltip" data-placement="top" title="{% trans %}Delete{% endtrans %}">
-                                <span class="fa fa-trash text-danger"></span>
+                                <span class=""></span>
                             </button>
                         </form>
                     </div>

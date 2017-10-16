@@ -164,7 +164,7 @@ class Register(MethodView):
                 user = User.query.filter_by(email=user.email).first()
                 send_activation_token.delay(user)
                 flash(
-                    _("An account activation email has been sent to %(email)s", email=user.email),
+                    _("Success! Please proceed to login"),
                     "success"
                 )
             else:
