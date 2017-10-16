@@ -29,6 +29,8 @@ import flaskbb.generate.ilxor as ilxor
 import flaskbb.generate.memes as memes
 import flaskbb.generate.utils as generate_utils
 import flaskbb.scrapers.reddit_scraper as reddit_scraper
+import datetime
+from flaskbb.extensions import db
 
 import csv
 
@@ -45,6 +47,17 @@ except ImportError:
 def data():
     """Plugins command sub group."""
     pass
+
+@data.command("delete_old_posts")
+def user_markov_model():
+    current_time = datetime.datetime.utcnow()
+    d = current_time - datetime.timedelta(days=1)
+    posts = Post.query.filter(Post.date_created < d).all()
+    print(len(posts))
+
+
+    # db.session.commit()
+    # print(Topic.query.filter(Post.date_created < d).count())
 
 @data.command("generate_user_corpus")
 def user_markov_model():
@@ -140,6 +153,12 @@ def update_reddit_models():
         reddit_scraper.run(subreddit, hours)
         reddit.create_reddit_post_model(subreddit)
         reddit.create_reddit_title_model(subreddit)
+
+@data.command("recalculate_forums")
+def seed_forums():
+    forums = Forum.query.all()
+    for forum in forums:
+        forum.recalculate()
 
 @data.command("seed_forums")
 def seed_forums():

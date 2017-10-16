@@ -143,7 +143,7 @@ class DefaultConfig(object):
     # ------------------------------
     # For all available caching types, have a look at the Flask-Cache docs
     # https://pythonhosted.org/Flask-Caching/#configuring-flask-caching
-    CACHE_TYPE = "simple"
+    CACHE_TYPE = "redit"
     # For redis:
     #CACHE_TYPE = "redis"
     CACHE_DEFAULT_TIMEOUT = 60
