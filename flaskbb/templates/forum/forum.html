@@ -61,18 +61,18 @@
                         {% if topic.locked %}
                             <span class="fa fa-lock fa-fw topic-locked"></span>
                         {% elif topic.hidden %}
-                            <span class="fa fa-user-secret"></span>
+                            <span class=""></span>
                         {% elif topic.important %}
                             {% if topic|topic_is_unread(topicread, current_user, forumsread) %}
-                                <span class="fa fa-star fa-fw topic-starred-unread"></span>
+                                <span class="topic-starred-unread"></span>
                             {% else %}
-                                <span class="fa fa-star-o fa-fw topic-starred-read"></span>
+                                <span class="topic-starred-read"></span>
                             {% endif %}
                         {% else %}
                             {% if topic|topic_is_unread(topicread, current_user, forumsread) %}
-                                <span class="fa fa-comment fa-fw topic-unread"></span>
+                                <span class="topic-unread"></span>
                             {% else %}
-                                <span class="fa fa-comment-o fa-fw topic-read"></span>
+                                <span class="topic-read"></span>
                             {% endif %}
                         {% endif %}
                         </div>

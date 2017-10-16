@@ -170,6 +170,22 @@ def seed_forums():
     # forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
     # forum.save()
 
+@data.command("seed_avatars")
+def seed_avatars():
+    gan_path_prefix = "{}/{}/avatars/".format(PROJECT_DIR, DATA_DIR)
+    avatars = [fname for fname in os.listdir(gan_path_prefix)]
+    users = User.query.all()
+    print(avatars)
+# 
+    for user in users:
+        avatar = random.choice(avatars)
+        url = "https://s3-us-west-2.amazonaws.com/avatars-pluto-c/avatars/{}".format(avatar)
+        print(url)
+        # url = generate_utils.upload_image(avatar).link
+        # print('got back url', url)
+        # user.avatar = url
+        # db.session.commit()
+
 @data.command("seed_reddit_users")
 def seed_reddit_users():
     reddit.seed_users()
