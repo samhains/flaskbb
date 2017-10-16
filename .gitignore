@@ -81,5 +81,6 @@ markov_models/thread_*
 flaskbb/scrapers/politics
 flaskbb/scrapers/dankmemes
 flaskbb/scrapers/The_Donald
+#markov_data/*
 
 # End of https://www.gitignore.io/api/vim

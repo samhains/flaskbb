@@ -10,7 +10,6 @@
 """
 import sys
 import os
-import shutil
 import random
 import json
 
@@ -36,6 +35,7 @@ import csv
 
 MARKOV_MODEL_DIR = "markov_models"
 DATA_DIR = "markov_data"
+PROJECT_DIR = os.environ[ "FLASKBB_DIR" ]
 
 try:
     from cookiecutter.main import cookiecutter
@@ -51,12 +51,12 @@ def data():
 @data.command("delete_old_posts")
 def user_markov_model():
     current_time = datetime.datetime.utcnow()
-    d = current_time - datetime.timedelta(days=1)
-    posts = Post.query.filter(Post.date_created < d).all()
-    print(len(posts))
+    d = current_time - datetime.timedelta(hours=23)
+    posts = Topic.query.filter(Topic.date_created < d).delete()
+    # print(len(posts))
 
 
-    # db.session.commit()
+    db.session.commit()
     # print(Topic.query.filter(Post.date_created < d).count())
 
 @data.command("generate_user_corpus")
@@ -73,7 +73,7 @@ def user_markov_model():
 @data.command("generate_post_corpus")
 def generate_post_corpus():
     posts = RawData.query.all()
-    f = open('{}/posts.txt'.format(DATA_DIR), 'w')
+    f = open('{}/{}/posts.txt'.format(PROJECT_DIR, DATA_DIR), 'w')
     for post in posts:
         print(post.message)
         f.write(post.message.encode('utf-8').strip()+"\n")
@@ -89,7 +89,7 @@ def generate_thread_corpus():
 
 @data.command("generate_ilxor_user")
 def generate_user():
-    with open("{}/users.txt".format(DATA_DIR)) as f:
+    with open("{}/{}/users.txt".format(PROJECT_DIR, DATA_DIR)) as f:
         text = f.read().split('\n')
 
     generate_utils.save_users(text)
@@ -106,7 +106,7 @@ def create_base_ile_model():
 
 @data.command("run")
 def run():
-    for i in range(0, 100):
+    for i in range(0, 10):
         # r1 = random.random()
         forum_id = random.randint(1,4)
         forum = Forum.query.filter(Forum.id==forum_id).all()[0]
@@ -120,13 +120,14 @@ def run():
         else:
             ilxor.ilxor_post(user, forum)
 
+
 @data.command("seed_meme_topics")
 def seed_meme_topics():
     memes.seed_topics()
 
 
 def seed_ilxor(fname):
-    with open('{}/{}.csv'.format(DATA_DIR,fname), 'rb') as csvfile:
+    with open('{}/{}/{}.csv'.format(PROJECT_DIR, DATA_DIR, fname), 'rb') as csvfile:
         csvreader = csv.reader(csvfile)
         next(csvreader, None)
         for row in csvreader:
@@ -141,16 +142,18 @@ def seed_ilxor(fname):
                 raw_data = RawData(thread_id=thread_id, thread_name=thread_name, post_num=post_num, username=username, message=message, forum_id=forum_id)
                 raw_data.save()
 
+
 @data.command("create_memes_model")
 def update_reddit_models():
     memes.create_memes_model()
+
 
 @data.command("update_reddit_models")
 def update_reddit_models():
     subreddits = ["The_Donald", "politics"]
     hours = 24
     for subreddit in subreddits:
-        reddit_scraper.run(subreddit, hours)
+        reddit_scraper.run(subreddit, hours, delete_old=False)
         reddit.create_reddit_post_model(subreddit)
         reddit.create_reddit_title_model(subreddit)
 
@@ -160,12 +163,12 @@ def seed_forums():
     for forum in forums:
         forum.recalculate()
 
-@data.command("seed_forums")
-def seed_forums():
-    forum = Forum(title="Everything", description="general discussion", category_id=1, position=2)
+# @data.command("seed_forums")
+# def seed_forums():
+    # forum = Forum(title="Everything", description="general discussion", category_id=1, position=2)
     # forum = Forum(title="Memiverse", description="culture spreading like virus", category_id=1, position=4)
     # forum = Forum(title="Politics", description="please keep it civil", category_id=1, position=3)
-    forum.save()
+    # forum.save()
 
 @data.command("seed_reddit_users")
 def seed_reddit_users():

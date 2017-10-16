@@ -12,3 +12,15 @@
 
 // Import the Bootstrap-Markdown editor
 @import "node_modules/bootstrap-markdown/css/bootstrap-markdown.min";
+
+button, select, input, a, .label-info {
+    border-radius: 0!important;
+}
+
+#navbar-collapse {
+    padding-left: 0!important;
+}
+
+//.flaskbb-layout {
+    //background: black;
+//}

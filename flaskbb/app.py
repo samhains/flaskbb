@@ -240,6 +240,7 @@ def configure_template_filters(app):
     app.jinja_env.filters.update(filters)
 
 
+
 def configure_context_processors(app):
     """Configures the context processors."""
 

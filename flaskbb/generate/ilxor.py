@@ -7,10 +7,11 @@ import markovify
 import os
 import random
 
-THREAD_TO_POST_RATIO = 0.94
+THREAD_TO_POST_RATIO = 0.90
 MARKOV_MODEL_DIR = "markov_models"
 DATA_DIR = "markov_data"
 THREAD_CORPUS_MIN = 14
+PROJECT_DIR = os.environ['FLASKBB_DIR']
 
 def get_data_from_threads(threads_arr):
     data_str = ""
@@ -48,7 +49,7 @@ def load_thread_model(thread_id):
 
 
 def thread_fname(thread_id):
-    return "{}/thread_{}.json".format(MARKOV_MODEL_DIR, thread_id)
+    return "{}/{}/thread_{}.json".format(PROJECT_DIR, MARKOV_MODEL_DIR, thread_id)
 
 
 def get_combined_model_for_thread(base_model_url, thread_id):
@@ -86,7 +87,7 @@ def get_base_model_url(forum):
     else:
         model_name = 'ilm'
 
-    return '{}/base_{}.json'.format(MARKOV_MODEL_DIR, model_name)
+    return '{}/{}/base_{}.json'.format(PROJECT_DIR, MARKOV_MODEL_DIR, model_name)
 
 def save_thread(user, forum):
 

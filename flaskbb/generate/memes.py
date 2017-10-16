@@ -11,12 +11,13 @@ DATA_DIR = "markov_data"
 MEME_FORUM_ID = 4
 MARKOV_MODEL_DIR = "markov_models"
 MODEL_NAME = "dankmemes"
+PROJECT_DIR = os.environ["FLASKBB_DIR"]
 
 def model_fname():
-    return "{}/{}.json".format(MARKOV_MODEL_DIR, MODEL_NAME)
+    return "{}/{}/{}.json".format(PROJECT_DIR, MARKOV_MODEL_DIR, MODEL_NAME)
 
 def seed_topics():
-    f = open("{}/meme_threads.txt".format(DATA_DIR), 'r')
+    f = open("{}/{}/meme_threads.txt".format(PROJECT_DIR, DATA_DIR), 'r')
     memes = f.read().split('\n')
 
     forum = Forum.query.filter(Forum.id==MEME_FORUM_ID).all()[0]
@@ -27,7 +28,7 @@ def seed_topics():
         user = random.choice(users)
         if len(meme) > 1:
             title = meme
-            url = google_scraper.run(100, title+" meme")
+            url = google_scraper.run(100, title + " meme")
             post_content = "![]({})".format(url)
             post_content += "\n"
             post_content += "\n"
@@ -56,7 +57,7 @@ def memes_post(user, forum):
         utils.save_post(forum, user, topic, text_model)
     elif rand_val >= 0.12 and rand_val <= 0.92:
         if random.random() > 0.5:
-            gan_path_prefix = "{}/memes_gan/".format(DATA_DIR)
+            gan_path_prefix = "{}/{}/memes_gan/".format(PROJECT_DIR, DATA_DIR)
             meme_files = [gan_path_prefix+fname for fname in os.listdir(gan_path_prefix)]
             meme_file = random.choice(meme_files)
             url = utils.upload_image(meme_file).link
@@ -69,6 +70,6 @@ def memes_post(user, forum):
 
 
 def create_memes_model():
-    json_path = "flaskbb/scrapers/dankmemes"
+    json_path = "{}/flaskbb/scrapers/dankmemes".format(PROJECT_DIR)
     text = process.get_posts_text(json_path)
     utils.create_model_from_text(text, model_fname())
