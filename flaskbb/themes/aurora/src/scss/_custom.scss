@@ -299,6 +299,9 @@ body {
 .breadcrumb>li+li:before {
     content: "-> "!important;
 }
+.forum-name a {
+    text-transform: capitalize!important;
+}
 
 .forum-panel .forum-row {
     background: white!important;
