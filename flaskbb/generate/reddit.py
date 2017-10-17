@@ -17,6 +17,9 @@ def model_fname(subreddit_name, model_type):
 def generate_title(subreddit):
     text_model = utils.load_model(model_fname(subreddit, 'title'))
     title = text_model.make_sentence(tries=100)
+    if title.startswith("Rex Tillerson Brushes Off Drama"): 
+	return None
+
     return title 
 
 

@@ -106,7 +106,7 @@ def create_base_ile_model():
 
 @data.command("run")
 def run():
-    for i in range(0, 5):
+    for i in range(0, 1):
         # r1 = random.random()
         forum_id = random.randint(1,4)
         forum = Forum.query.filter(Forum.id==forum_id).all()[0]
