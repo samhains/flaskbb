@@ -220,3 +220,44 @@ body {
     margin-left: 7px;
 
 }
+.md-editor .btn-toolbar{
+    border-radius: 0 !important; 
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+
+}
+.flaskbb-editor {
+
+    border-radius: 0 !important; 
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+}
+
+.sidebar {
+    border-radius: 0 !important; 
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+}
+.label-success {
+    background-color: blue;
+    border-radius: 0;
+}
+.profile-groupname {
+    text-align: center;
+    margin-top: 0.75em;
+    color: blue;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+.row .category-row :hover {
+    background-color: white;
+}
