@@ -52,13 +52,36 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
 .nav-active {
     color: $grey!important;
 }
+.navbar {
+    margin-bottom: 7px!important;
+}
 .navbar-default {
     background: none!important;
     border: none!important;
 }
-
+.panel {
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+    margin-bottom: 20px;
+}
+.category-panel .category-meta {
+    border-bottom: none!important;
+}
+.category-panel .category-row {
+    border: none!important;
+}
 body {
     // Margin bottom by footer height
 
     background: $grey;
+}
+.panel-heading {
+    border-bottom: none!important;
+}
+
+.page-panel>.panel-heading {
+    color: black;
 }
