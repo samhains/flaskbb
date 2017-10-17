@@ -12,9 +12,17 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
 .panel {
     box-shadow: none;
 }
+.profile-sidebar {
+    background: white;
+}
 
 .profile-picture img {
     border-radius: 0 !important; 
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
 }
 
 .flaskbb-header {
@@ -140,6 +148,7 @@ body {
 }
 
 .form-control {
+    height: 35px;
     border: 2px solid!important;
     border-bottom-color: #c7c7c7!important;
     border-right-color: #c7c7c7!important;
@@ -147,8 +156,8 @@ body {
     border-top-color: #808080!important;
 
 }
-.pagination-link {
 
+.pagination-link {
     background: $grey;
     border: 2px solid!important;
     border-bottom-color: #c7c7c7!important;
@@ -161,4 +170,47 @@ body {
 .navbar .navbar-nav .user-btn {
     padding-right: 0em;
     padding-left: 1em;
+}
+
+.topic-panel>.panel-heading {
+    background: blue!important;
+}
+
+.topic-panel>.panel-heading a {
+    color: white;
+    font-weight: bold!important;
+}
+
+
+.dropdown-menu {
+    background: $grey!important;
+}
+
+.topic-author a {
+    color: blue!important;
+
+}
+
+.topic-last-post a{
+    color: black;
+
+}
+.panel-body {
+    background: white!important;
+}
+.page-body {
+    background: white!important;
+}
+.profile-body {
+    background: white!important;
+}
+
+.page-body.profile-body {
+    background-color: white;
+}
+
+#profile-tabs {
+    margin-top: 20px;
+    margin-left: 7px;
+
 }

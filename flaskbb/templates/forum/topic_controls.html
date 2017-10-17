@@ -12,7 +12,7 @@
             <!-- Moderation buttons -->
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="fa fa-bars fa-fw" aria-hidden="true"></span> {% trans %}Moderate{% endtrans %} <span class="caret"></span>
+                    <span class="" aria-hidden="true"></span> {% trans %}Moderate{% endtrans %} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
 
@@ -103,14 +103,14 @@
             <form class="inline-form" method="post" action="{{ url_for('forum.track_topic', topic_id=topic.id, slug=topic.slug) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <button class="btn btn-default">
-                    <span class="fa fa-tag fa-fw" aria-hidden="true"></span> {% trans %}Track Topic{% endtrans %}
+                    <span class="" aria-hidden="true"></span> {% trans %}Track Topic{% endtrans %}
                 </button>
             </form>
             {% endif %}
 
             {% if current_user|post_reply(topic) %}
             <a href="{{ url_for('forum.new_post', topic_id=topic.id, slug=topic.slug) }}" class="btn btn-primary">
-                <span class="fa fa-pencil fa-fw"></span> {% trans %}Reply{% endtrans %}
+                <span class=""></span> {% trans %}Reply{% endtrans %}
             </a>
             {% else %}
             <div class="btn btn-primary"><span class="fa fa-lock fa-fw"></span> {% trans %}Locked{% endtrans %}</div>
