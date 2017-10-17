@@ -5,6 +5,12 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     border-radius: 0!important;
 }
 
+.alert, .alert-success, .alert-danger {
+    background: $grey;
+    border: none;
+    color: black;
+}
+
 #navbar-collapse {
     padding-left: 0!important;
 }
