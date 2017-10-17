@@ -106,7 +106,7 @@ def create_base_ile_model():
 
 @data.command("run")
 def run():
-    for i in range(0, 10):
+    for i in range(0, 5):
         # r1 = random.random()
         forum_id = random.randint(1,4)
         forum = Forum.query.filter(Forum.id==forum_id).all()[0]
@@ -180,7 +180,6 @@ def seed_avatars():
     for user in users:
         avatar = random.choice(avatars)
         url = "https://s3-us-west-2.amazonaws.com/avatars-pluto-c/avatars/{}".format(avatar)
-        print(url)
         user.avatar = url
         db.session.commit()
 
