@@ -63,8 +63,12 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     border-top-color: #a6a6a6!important;
 }
 
+.category-panel .category-row.hover{
+    background:white!important;
+
+}
 .nav-active {
-    color: $grey!important;
+    //color: $grey!important;
 }
 .navbar {
     margin-bottom: 7px!important;
