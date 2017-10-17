@@ -67,8 +67,15 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     border-top-color: #808080!important;
     margin-bottom: 20px;
 }
+
 .category-panel .category-meta {
-    border-bottom: none!important;
+    background-color: blue;
+    color: white!important;
+    border-bottom: 1px solid #cad7e1;
+}
+.category-panel .category-meta .forum-name{
+    background-color: blue;
+    color: white!important;
 }
 .category-panel .category-row {
     border: none!important;
@@ -83,8 +90,15 @@ body {
 }
 
 .page-panel>.panel-heading {
-    color: black;
+    background: blue;
+    color: white;
+    border-bottom-color: #c7c7c7!important;
 }
+.page-panel>.panel-heading a {
+    color: white;
+    text-decoration:underline!important;
+}
+
 
 .flaskbb-breadcrumb {
 
@@ -132,4 +146,19 @@ body {
     border-left-color: #808080!important;
     border-top-color: #808080!important;
 
+}
+.pagination-link {
+
+    background: $grey;
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+    margin-right: 5px; 
+}
+
+.navbar .navbar-nav .user-btn {
+    padding-right: 0em;
+    padding-left: 1em;
 }

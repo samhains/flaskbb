@@ -328,16 +328,16 @@
     {%- for page in page_obj.iter_pages() %}
         {% if page %}
             {% if page != page_obj.page %}
-                <li><a href="{{ url }}?page={{ page }}{{ sorting }}">{{ page }}</a></li>
+                <li ><a class="pagination-link" href="{{ url }}?page={{ page }}{{ sorting }}">{{ page }}</a></li>
             {% else %}
-                <li class="active"><a href="#">{{ page }}</a></li>
+                <li class="active"><a class="pagination-link" href="#">{{ page }}</a></li>
             {% endif %}
         {% endif %}
     {%- else -%}
-        <li class="active"><a href="#">1</a></li>
+        <li class="active"><a class="pagination-link" href="#">1</a></li>
     {%- endfor %}
     {% if page_obj.has_next %}
-        <li><a href="{{ url }}?page={{ page_obj.next_num }}{{ sorting }}">&raquo;</a></li>
+        <li><a  class="pagination-link" href="{{ url }}?page={{ page_obj.next_num }}{{ sorting }}">&raquo;</a></li>
     {% endif %}
 </ul>
 {% endmacro %}
@@ -347,16 +347,16 @@
     {%- for page in page_obj.iter_pages() %}
         {% if page %}
             {% if page != page_obj.page %}
-                <li><a href="{{ url }}?page={{ page }}">{{ page }}</a></li>
+                <li><a "pagination-link" href="{{ url }}?page={{ page }}">{{ page }}</a></li>
             {% else %}
-                <li class="disabled"><a href="#">{{ page }}</a></li>
+                <li class="disabled"><a "pagination-link" href="#">{{ page }}</a></li>
             {% endif %}
         {% endif %}
     {%- else -%}
-        <li class="disabled"><a href="#">1</a></li>
+        <li class="disabled"><a "pagination-link" href="#">1</a></li>
     {%- endfor %}
     {% if page_obj.has_next %}
-        <li><a href="{{ url }}?page={{ page_obj.next_num }}">Next</a></li>
+        <li><a "pagination-link"  href="{{ url }}?page={{ page_obj.next_num }}">Next</a></li>
     {% endif %}
 </ul>
 {% endmacro %}

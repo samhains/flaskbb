@@ -20,9 +20,6 @@
         <div class="pull-right">
             <form class="inline-form" method="post" action="{{ url_for('forum.markread', forum_id=forum.id, slug=forum.slug) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                <button class="btn btn-default">
-                    <span class="fa fa-check fa-fw"></span> {% trans %}Mark as Read{% endtrans %}
-                </button>
             </form>
 
             {% if forum.locked %}
@@ -31,7 +28,7 @@
             </span>
             {% else %}
             <a href="{{ url_for('forum.new_topic', forum_id=forum.id, slug=forum.slug) }}" class="btn btn-primary">
-                <span class="fa fa-pencil fa-fw"></span> {% trans %}New Topic{% endtrans %}
+                <span class=""></span> {% trans %}New Topic{% endtrans %}
             </a>
             {% endif %}
         </div>
@@ -39,9 +36,6 @@
     </div>
 
     <div class="panel forum-panel">
-        <div class="panel-heading forum-head">
-            <a href="{{ forum.url }}">{{ forum.title }}</a>
-        </div>
 
         <div class="panel-body forum-body">
             <div class="forum-meta">
@@ -56,7 +50,7 @@
 
                 <div class="col-md-5 col-sm-5 col-xs-8 topic-info">
                     <div class="row">
-                        <div class="col-md-1 col-sm-2 col-xs-2 topic-status">
+                        <div class="col-md-0 col-sm-0 col-xs-0 topic-status">
                         {% if topic.locked %}
                             <span class="fa fa-lock fa-fw topic-locked"></span>
                         {% elif topic.hidden %}
