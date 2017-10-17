@@ -297,3 +297,8 @@ body {
 .profile-content {
     border-left: none;
 }
+
+.breadcrumb>li+li:before {
+    content: "-> "!important;
+}
+
