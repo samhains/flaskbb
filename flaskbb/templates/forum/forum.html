@@ -42,13 +42,13 @@
                 <div class="col-md-5 col-sm-5 col-xs-8 topic-name">{% trans %}Topic{% endtrans %}</div>
                 <div class="col-md-2 col-sm-2 hidden-xs topic-stats">{% trans %}Posts{% endtrans %}</div>
                 <div class="col-md-2 col-sm-2 hidden-xs topic-stats">{% trans %}Views{% endtrans %}</div>
-                <div class="col-md-3 col-sm-3 col-xs-4 topic-last-post">{% trans %}Last Post{% endtrans %}</div>
+                <div class="col-md-3 col-sm-3 hidden-xs topic-last-post">{% trans %}Last Post{% endtrans %}</div>
             </div>
 
             {% for topic, topicread in topics.items %}
             <div class="row forum-row hover clearfix">
 
-                <div class="col-md-5 col-sm-5 col-xs-8 topic-info">
+                <div class="col-md-5 col-sm-5 col-xs-12 topic-info">
                     <div class="row">
                         <div class="col-md-0 col-sm-0 col-xs-0 topic-status">
                         {% if topic.locked %}
@@ -69,7 +69,7 @@
                             {% endif %}
                         {% endif %}
                         </div>
-                        <div class="col-md-11 col-sm-10 col-xs-10">
+                        <div class="col-md-11 col-sm-10 col-xs-12">
                             <div class="topic-name">
                                 <a href="{{ topic.first_unread(topicread, current_user, forumsread) }}">{{ topic.title }}</a>
                                 <!-- Topic Pagination -->
@@ -101,7 +101,7 @@
                     {{ topic.views }}
                 </div>
 
-                <div class="col-md-3 col-sm-3 col-xs-4 topic-last-post">
+                <div class="col-md-3 col-sm-3 hidden-xs topic-last-post">
                     <a href="{{ topic.last_post.url }}">{{ topic.last_post.date_created|time_since }}</a><br />
 
                     <div class="topic-author">
