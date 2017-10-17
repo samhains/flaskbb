@@ -273,9 +273,9 @@
 
         {%- if kwargs['required'] or field.flags.required -%}
             {% if label_text %}
-                {{ field(class='form-control', placeholder=label_text, required="required", **kwargs) }}
+                {{ field(class='form-control', required="required", **kwargs) }}
             {% else %}
-                {{ field(class='form-control', placeholder=field.label.text, required="required", **kwargs) }}
+                {{ field(class='form-control', required="required", **kwargs) }}
             {% endif %}
         {%- else -%}
             {% if label_text %}
@@ -324,7 +324,7 @@
 <ul class='{%- if ul_class -%}{{ ul_class }}{%- else -%}pagination{%- endif -%}'>
     {% set ordering = 'asc' if asc == True else 'desc' %}
     {% set sorting = '&sort_by='+(sort_by|urlencode)+'&order_by='+ordering if sort_by is string else '' %}
-    <li class="disabled"><a href="#"><span class="pages-label">{% trans %}Pages{% endtrans %}:</span></a></li>
+    
     {%- for page in page_obj.iter_pages() %}
         {% if page %}
             {% if page != page_obj.page %}

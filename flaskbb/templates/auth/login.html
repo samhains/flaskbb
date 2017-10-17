@@ -7,7 +7,6 @@
 
 <div class="panel page-panel">
     <div class="panel-heading page-head">
-        {% trans %}Login{% endtrans %}
     </div>
 
     <div class="panel-body">
@@ -15,7 +14,6 @@
             {{ form.hidden_tag() }}
             {{ horizontal_field(form.login)}}
             {{ horizontal_field(form.password)}}
-            {{ horizontal_field(form.remember_me) }}
             {% if flaskbb_config["RECAPTCHA_ENABLED"] %}
                 {{ horizontal_field(form.recaptcha) }}
             {% endif %}
@@ -24,7 +22,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-4">
-                    <a class="pull-left" href="{{ url_for('auth.register') }}"><small>{% trans %}Not a member yet?{% endtrans %}</small></a>
+                    <a class="pull-left" href="{{ url_for('auth.register') }}"><small>{% trans %}REGISTER{% endtrans %}</small></a>
                 </div>
             </div>
         </form>

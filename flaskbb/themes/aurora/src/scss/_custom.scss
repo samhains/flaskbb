@@ -85,3 +85,51 @@ body {
 .page-panel>.panel-heading {
     color: black;
 }
+
+.flaskbb-breadcrumb {
+
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+    margin-bottom: 20px;
+}
+
+.breadcrumb>.active {
+    color: black;
+    font-weight: bold;
+}
+
+.author-avatar img {
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+
+}
+.post-row {
+    background: white;
+
+}
+.author-registered {
+    color: black!important;
+
+}
+.author-posts {
+    color: black!important;
+
+}
+.post-box {
+    border-left: none;
+}
+
+.form-control {
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+
+}
