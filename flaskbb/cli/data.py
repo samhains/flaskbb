@@ -181,10 +181,8 @@ def seed_avatars():
         avatar = random.choice(avatars)
         url = "https://s3-us-west-2.amazonaws.com/avatars-pluto-c/avatars/{}".format(avatar)
         print(url)
-        # url = generate_utils.upload_image(avatar).link
-        # print('got back url', url)
-        # user.avatar = url
-        # db.session.commit()
+        user.avatar = url
+        db.session.commit()
 
 @data.command("seed_reddit_users")
 def seed_reddit_users():

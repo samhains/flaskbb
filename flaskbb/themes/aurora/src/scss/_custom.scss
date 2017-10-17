@@ -1,0 +1,64 @@
+
+$grey:  #E6E6E6;
+
+button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
+    border-radius: 0!important;
+}
+
+#navbar-collapse {
+    padding-left: 0!important;
+}
+
+.panel {
+    box-shadow: none;
+}
+
+.profile-picture img {
+    border-radius: 0 !important; 
+}
+
+.flaskbb-header {
+    border: 2px solid!important;
+    border-bottom-color: #c7c7c7!important;
+    border-right-color: #c7c7c7!important;
+    border-left-color: #808080!important;
+    border-top-color: #808080!important;
+    margin-bottom: 20px;
+}
+
+.btn {
+    font-weight: bold;
+    color: black!important;
+    background: $grey!important;
+    border: 2px solid!important;
+    border-bottom-color: #444!important;
+    border-right-color: #444!important;
+    border-left-color: #a6a6a6!important;
+    border-top-color: #a6a6a6!important;
+    height: 35px;
+}
+.btn-primary {
+    height: 35px;
+    font-weight: bold;
+    color: black!important;
+    background: $grey!important;
+    border: 2px solid!important;
+    border-bottom-color: #444!important;
+    border-right-color: #444!important;
+    border-left-color: #a6a6a6!important;
+    border-top-color: #a6a6a6!important;
+}
+
+.nav-active {
+    color: $grey!important;
+}
+.navbar-default {
+    background: none!important;
+    border: none!important;
+}
+
+body {
+    // Margin bottom by footer height
+
+    background: $grey;
+}

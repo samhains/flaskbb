@@ -12,15 +12,3 @@
 
 // Import the Bootstrap-Markdown editor
 @import "node_modules/bootstrap-markdown/css/bootstrap-markdown.min";
-
-button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
-    border-radius: 0!important;
-}
-
-#navbar-collapse {
-    padding-left: 0!important;
-}
-
-.panel {
-    box-shadow: none;
-}

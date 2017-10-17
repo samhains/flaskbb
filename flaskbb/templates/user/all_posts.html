@@ -3,7 +3,7 @@
 
 {% block breadcrumb %}
 <ul class="breadcrumb flaskbb-breadcrumb">
-    <li><a href="{{ url_for('forum.index') }}">{% trans %}Forum{% endtrans %}</a></li>
+    <li><a href="{{ url_for('forum.index') }}">{% trans %}?{% endtrans %}</a></li>
     <li><a href="{{ user.url }}">{{ user.username }}</a></li>
     <li class="active">{% trans %}Posts{% endtrans %}</li>
 </ul>
@@ -25,7 +25,7 @@
     #}
     <li>
         <a href="{{ url_for('user.view_all_topics', username=user.username) }}">
-            <span class="fa fa-comments"></span> {% trans %}Topics{% endtrans %}
+             {% trans %}Topics{% endtrans %}
         </a>
     </li>
 
