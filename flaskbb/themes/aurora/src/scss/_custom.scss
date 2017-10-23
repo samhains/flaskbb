@@ -3,7 +3,7 @@ $grey:  #E6E6E6;
 $border-color-light: #a6a6a6;
 $border-color-dark: #444;
 
-button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
+button, select, input, a, .label-info, .label, .alert, .alert-success, .alert-danger {
     border-radius: 0!important;
 }
 
@@ -201,6 +201,7 @@ body {
 
     border-width: 2px!important;
     border-bottom-color: $border-color-light!important;
+    @include outward-element(2px);
 }
 
 .topic-panel>.panel-heading a {
