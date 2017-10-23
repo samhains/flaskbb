@@ -2,10 +2,10 @@
 
     <div class="panel-body category-body">
         <div class="category-meta">
-            <div class="col-md-5 col-sm-5 col-xs-12 forum-name">{% trans %}Forum{% endtrans %}</div>
-            <div class="col-md-2 col-sm-2 hidden-xs forum-stats">{% trans %}Topics{% endtrans %}</div>
-            <div class="col-md-2 col-sm-2 hidden-xs forum-stats">{% trans %}Posts{% endtrans %}</div>
-            <div class="col-md-3 col-sm-3 hidden-xs forum-last-post">{% trans %}Last Post{% endtrans %}</div>
+            <div class="col-md-5 col-sm-5 col-xs-12 forum-table-header forum-name">{% trans %}Forum{% endtrans %}</div>
+            <div class="col-md-2 col-sm-2 hidden-xs forum-table-header forum-stats">{% trans %}Topics{% endtrans %}</div>
+            <div class="col-md-2 col-sm-2 hidden-xs forum-table-header forum-stats">{% trans %}Posts{% endtrans %}</div>
+            <div class="col-md-3 col-sm-3 hidden-xs forum-table-header forum-last-post">{% trans %}Last Post{% endtrans %}</div>
         </div>
         {% for forum, forumsread in forums %}
         <div class="row category-row hover">

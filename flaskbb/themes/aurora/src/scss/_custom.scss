@@ -1,8 +1,26 @@
 
 $grey:  #E6E6E6;
+$border-color-light: #a6a6a6;
+$border-color-dark: #444;
 
 button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     border-radius: 0!important;
+}
+
+@mixin inward-element($radius) {
+    border: $radius solid!important;
+    border-bottom-color: $border-color-light!important;
+    border-right-color: $border-color-light!important;
+    border-left-color: $border-color-dark!important;
+    border-top-color: $border-color-dark!important;
+}
+
+@mixin outward-element($radius) {
+    border: $radius solid!important;
+    border-top-color: $border-color-light!important;
+    border-left-color: $border-color-light!important;
+    border-bottom-color: $border-color-dark!important;
+    border-right-color: $border-color-dark!important;
 }
 
 .alert, .alert-success, .alert-danger {
@@ -24,31 +42,19 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
 
 .profile-picture img {
     border-radius: 0 !important; 
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include inward-element(2px);
 }
 
 .flaskbb-header {
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
     margin-bottom: 20px;
+    @include inward-element(4px);
 }
 
 .btn {
     font-weight: bold;
     color: black!important;
     background: $grey!important;
-    border: 2px solid!important;
-    border-bottom-color: #444!important;
-    border-right-color: #444!important;
-    border-left-color: #a6a6a6!important;
-    border-top-color: #a6a6a6!important;
+    @include outward-element(2px);
     height: 35px;
 }
 .btn-primary {
@@ -56,11 +62,7 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     font-weight: bold;
     color: black!important;
     background: $grey!important;
-    border: 2px solid!important;
-    border-bottom-color: #444!important;
-    border-right-color: #444!important;
-    border-left-color: #a6a6a6!important;
-    border-top-color: #a6a6a6!important;
+    @include outward-element(2px);
 }
 
 .category-panel .category-row.hover{
@@ -85,22 +87,37 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
     border: none!important;
 }
 .panel {
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
     margin-bottom: 20px;
+    @include outward-element(2px);
 }
 
 .category-panel .category-meta {
-    border-bottom: none;
-    color: black;
+    padding-top: 0!important;
 
+    background:blue!important;
+    color: white;
+    //border-bottom-color: $border-color-dark!important;
+    //border-bottom-width: 2px!important;
 }
+
+.forum-table-header {
+
+        padding-bottom: 5px;
+        padding-top: 5px;
+        @include outward-element(2px);
+}
+
 .category-panel .category-row {
-    border: none!important;
+    border: none;
+    border-bottom: 0px solid!important;
+    border-color: $border-color-light!important;
 }
+
+.category-panel .category-row:nth-child(odd) 
+{
+    background: $grey!important;
+}
+
 body {
     // Margin bottom by footer height
 
@@ -108,12 +125,19 @@ body {
 }
 .panel-heading {
     color: black;
+    padding: 6px 0px 6px 15px;
 
 }
 
 .page-panel>.panel-heading {
-    color: black;
+    color: white;
+    background: blue;
     border: none;
+    a {
+        color: white!important;
+
+    }
+    @include outward-element(2px);
 }
 .page-panel>.panel-heading a {
     text-decoration:underline!important;
@@ -121,12 +145,8 @@ body {
 
 
 .flaskbb-breadcrumb {
+    @include inward-element(2px);
 
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
     margin-bottom: 20px;
 }
 
@@ -136,17 +156,13 @@ body {
 }
 
 .author-avatar img {
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include outward-element(2px);
 
 }
 .post-row {
     background: white;
     border-width: 2px!important;
-    border-bottom-color: #c7c7c7!important;
+    border-bottom-color: $border-color-light!important;
 
 }
 .author-registered {
@@ -163,21 +179,12 @@ body {
 
 .form-control {
     height: 35px;
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include inward-element(2px);
 
 }
 
 .pagination-link {
-    background: $grey;
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include outward-element(2px);
     margin-right: 5px; 
 }
 
@@ -190,7 +197,7 @@ body {
     background: blue!important;
 
     border-width: 2px!important;
-    border-bottom-color: #c7c7c7!important;
+    border-bottom-color: $border-color-light!important;
 }
 
 .topic-panel>.panel-heading a {
@@ -205,6 +212,7 @@ body {
 
 .topic-author a {
     color: blue!important;
+    text-decoration: underline;
 
 }
 
@@ -233,31 +241,20 @@ body {
 }
 .md-editor .btn-toolbar{
     border-radius: 0 !important; 
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include inward-element(2px);
 
 }
 .flaskbb-editor {
 
     border-radius: 0 !important; 
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include inward-element(2px);
 }
 
 .sidebar {
     border-radius: 0 !important; 
-    border: 2px solid!important;
-    border-bottom-color: #c7c7c7!important;
-    border-right-color: #c7c7c7!important;
-    border-left-color: #808080!important;
-    border-top-color: #808080!important;
+    @include inward-element(2px);
 }
+
 .label-success {
     background-color: blue;
     border-radius: 0;
@@ -280,10 +277,12 @@ body {
     color: blue;
 }
 .forum-panel .forum-row {
-    border-bottom: none!important;
+    //border-bottom: none!important;
 }
 .forum-panel .forum-meta {
     border: none;
+    color: white;
+    background: blue;
 }
 .seps {
     margin-top:30px;
