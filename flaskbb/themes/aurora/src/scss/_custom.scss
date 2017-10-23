@@ -107,16 +107,18 @@ button, select, input, a, .label-info, .alert, .alert-success, .alert-danger {
         @include outward-element(2px);
 }
 
-.category-panel .category-row {
-    border: none;
-    border-bottom: 0px solid!important;
+.category-panel .category-row:not(:last-child) {
+    border-bottom: 2px solid!important;
     border-color: $border-color-light!important;
 }
-
-.category-panel .category-row:nth-child(odd) 
-{
-    background: $grey!important;
+.category-panel .category-row {
+    border: none;
 }
+
+//.category-panel .category-row:nth-child(odd) 
+//{
+    //background: $grey!important;
+//}
 
 body {
     // Margin bottom by footer height
@@ -175,6 +177,7 @@ body {
 }
 .post-box {
     border-left: none;
+    background: none;
 }
 
 .form-control {
